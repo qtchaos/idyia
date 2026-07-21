@@ -19,22 +19,27 @@
 	<title>idyia</title>
 </svelte:head>
 
-<!-- Slim top bar -->
-<header class="flex items-center justify-between px-4 h-9 border-b border-[#e1e1e1] bg-white">
-	<a href="/" class="font-display font-black text-sm tracking-tight leading-none" style="font-family:'Avara',sans-serif; font-weight:900;">idyia</a>
+<div class="flex flex-col" style="height:100dvh">
+	<!-- Slim top bar -->
+	<header class="flex items-center justify-between px-4 h-9 shrink-0 border-b border-[#e1e1e1] bg-white">
+		<a href="/" class="text-sm tracking-tight leading-none" style="font-family:'Avara',sans-serif; font-weight:900;">idyia</a>
 
-	<div class="flex items-center gap-3 text-xs">
-		{#if data.user}
-			{#if data.role === 'moderator' || data.role === 'admin'}
-				<a href="/admin" class="text-black/50 hover:text-black transition-colors">admin</a>
+		<div class="flex items-center gap-3 text-xs">
+			{#if data.user}
+				{#if data.role === 'moderator' || data.role === 'admin'}
+					<a href="/admin" class="text-black/50 hover:text-black transition-colors">admin</a>
+				{/if}
+				<a href="/submit" class="text-black/50 hover:text-black transition-colors">submit</a>
+				<button onclick={logout} class="text-black/35 hover:text-black transition-colors">sign out</button>
+			{:else}
+				<a href="/auth/register" class="text-black/50 hover:text-black transition-colors">register</a>
+				<a href="/auth/login" class="px-2.5 py-1 bg-black text-white rounded hover:bg-black/80 transition-colors">sign in</a>
 			{/if}
-			<a href="/submit" class="text-black/50 hover:text-black transition-colors">submit</a>
-			<button onclick={logout} class="text-black/35 hover:text-black transition-colors">sign out</button>
-		{:else}
-			<a href="/auth/register" class="text-black/50 hover:text-black transition-colors">register</a>
-			<a href="/auth/login" class="px-2.5 py-1 bg-black text-white rounded hover:bg-black/80 transition-colors">sign in</a>
-		{/if}
-	</div>
-</header>
+		</div>
+	</header>
 
-{@render children()}
+	<!-- Page content fills remaining height -->
+	<div class="flex-1 flex flex-col overflow-hidden">
+		{@render children()}
+	</div>
+</div>

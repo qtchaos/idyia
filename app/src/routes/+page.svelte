@@ -28,32 +28,32 @@
 	}
 </script>
 
-<!-- Toolbar: h-9 = 36px so sticky thead = top-[72px] (36 nav + 36 toolbar) -->
-<div class="h-9 flex items-center border-b border-[#e1e1e1] bg-white px-3 gap-3">
+<!-- Toolbar -->
+<div class="h-9 shrink-0 flex items-center border-b border-[#e1e1e1] bg-white px-3 gap-3">
 	<SearchBar />
 	<div class="w-px h-4 bg-black/10"></div>
 	<PageSizeSelector />
 	{#if data.user}
 		<div class="w-px h-4 bg-black/10"></div>
-		<a
-			href="/submit"
-			class="h-6 px-3 text-[11px] bg-black text-white rounded hover:bg-black/75 transition-colors flex items-center"
-		>+ submit</a>
-	{/if}
-	<div class="ml-auto text-[11px] text-black/25">
-		{#if !data.user}
+		<a href="/submit" class="h-6 px-3 text-[11px] bg-black text-white rounded hover:bg-black/75 transition-colors flex items-center">
+			+ submit
+		</a>
+	{:else}
+		<div class="ml-auto text-[11px] text-black/30">
 			<a href="/auth/login" class="hover:text-black underline">sign in to submit</a>
-		{/if}
-	</div>
+		</div>
+	{/if}
 </div>
 
-<CompanyTable
-	{companies}
-	{hasMore}
-	showStatus={data.role === 'moderator' || data.role === 'admin'}
-	onLoadMore={loadMore}
-/>
-
-{#if loading}
-	<div class="py-3 text-center text-[11px] text-black/25">loading…</div>
-{/if}
+<!-- Table: flex-1 so it fills remaining height; overflow-y-auto so only tbody area scrolls -->
+<div class="flex-1 overflow-auto">
+	<CompanyTable
+		{companies}
+		{hasMore}
+		showStatus={data.role === 'moderator' || data.role === 'admin'}
+		onLoadMore={loadMore}
+	/>
+	{#if loading}
+		<div class="py-3 text-center text-[11px] text-black/25">loading…</div>
+	{/if}
+</div>

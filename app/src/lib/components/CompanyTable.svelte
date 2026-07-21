@@ -49,7 +49,7 @@
 		class="w-full text-[13px] border-separate border-spacing-0 border-l border-t border-[#e1e1e1]"
 		style="min-width: 900px"
 	>
-		<thead class="sticky top-[72px] z-10">
+		<thead>
 			<tr>
 				<!-- Row number gutter -->
 				<th class="{hcell} w-10 bg-[#f9f9f9] border-b-2"></th>
