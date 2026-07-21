@@ -143,29 +143,17 @@
 			></textarea>
 		</div>
 
-		<div class="grid grid-cols-2 gap-3">
-			<div class="flex flex-col gap-1">
-				<label class="text-xs font-medium uppercase tracking-wide text-black/50" for="imageUrl"
-					>Image URL</label
-				>
-				<input
-					id="imageUrl"
-					name="imageUrl"
-					type="url"
-					class="px-3 py-2.5 border border-black/20 rounded text-sm focus:outline-none focus:border-black/60"
-				/>
-			</div>
-			<div class="flex flex-col gap-1">
-				<label class="text-xs font-medium uppercase tracking-wide text-black/50" for="imageOrigin"
-					>Image origin</label
-				>
-				<input
-					id="imageOrigin"
-					name="imageOrigin"
-					placeholder="X post, blog, archive…"
-					class="px-3 py-2.5 border border-black/20 rounded text-sm focus:outline-none focus:border-black/60"
-				/>
-			</div>
+		<div class="flex flex-col gap-1">
+			<label class="text-xs font-medium uppercase tracking-wide text-black/50" for="imageOrigin"
+				>Source URL</label
+			>
+			<input
+				id="imageOrigin"
+				name="imageOrigin"
+				type="url"
+				placeholder="https://x.com/…, blog post, archive…"
+				class="px-3 py-2.5 border border-black/20 rounded text-sm focus:outline-none focus:border-black/60"
+			/>
 		</div>
 
 		<button

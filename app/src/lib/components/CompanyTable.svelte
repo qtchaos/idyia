@@ -163,10 +163,10 @@
 
 					<!-- Source -->
 					<td class="{cell} align-middle {showStatus ? '' : 'border-r-0'}">
-						{#if company.imageOrigin || company.imageUrl}
-							<a href={company.imageOrigin ?? company.imageUrl ?? '#'} target="_blank" rel="noopener noreferrer"
+						{#if company.imageOrigin}
+							<a href={company.imageOrigin} target="_blank" rel="noopener noreferrer"
 								class="block truncate text-black/50 underline underline-offset-2 hover:text-black transition-colors"
-							>{company.imageOrigin ?? company.imageUrl}</a>
+							>{company.imageOrigin}</a>
 						{:else}
 							<span class="text-black/15">—</span>
 						{/if}

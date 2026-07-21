@@ -34,7 +34,7 @@ export const actions: Actions = {
 			registeredName: data.get('registeredName')?.toString() || null,
 			registryUrl: data.get('registryUrl')?.toString() || null,
 			urlRegex: data.get('urlRegex')?.toString() || null,
-			imageUrl: data.get('imageUrl')?.toString() || null,
+			imageUrl: null,
 			imageOrigin: data.get('imageOrigin')?.toString() || null,
 			status: isTrusted ? 'approved' : 'pending',
 			submittedBy: locals.user.id,
