@@ -39,7 +39,7 @@
 	</header>
 
 	<!-- Page content fills remaining height -->
-	<div class="flex-1 flex flex-col overflow-hidden">
+	<div class="flex-1 flex flex-col overflow-auto">
 		{@render children()}
 	</div>
 </div>

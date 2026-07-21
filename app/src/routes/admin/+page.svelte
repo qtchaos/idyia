@@ -1,11 +1,28 @@
-<main class="max-w-2xl mx-auto px-4 sm:px-6 py-8">
-	<h1 class="text-xl font-semibold mb-6">Admin</h1>
-	<nav class="flex flex-col gap-2">
-		<a href="/admin/pending" class="text-sm text-black/70 hover:text-black underline underline-offset-2">
-			Pending submissions
+<script lang="ts">
+	import type { PageData } from './$types';
+	let { data }: { data: PageData } = $props();
+</script>
+
+<div class="max-w-xl mx-auto px-4 py-10">
+	<h1 class="text-2xl mb-1">Admin</h1>
+	<p class="text-[13px] text-black/40 mb-8">Manage submissions, amendments, and users</p>
+
+	<div class="border border-[#e1e1e1] rounded overflow-hidden">
+		<a href="/admin/pending"
+			class="flex items-center justify-between px-4 py-3 border-b border-[#e1e1e1] hover:bg-[#f7f8fa] transition-colors group">
+			<div>
+				<div class="text-[13px] font-medium">Pending submissions</div>
+				<div class="text-[12px] text-black/40 mt-0.5">Review new company entries and amendments</div>
+			</div>
+			<span class="text-black/20 group-hover:text-black transition-colors text-lg">→</span>
 		</a>
-		<a href="/admin/users" class="text-sm text-black/70 hover:text-black underline underline-offset-2">
-			Manage users
+		<a href="/admin/users"
+			class="flex items-center justify-between px-4 py-3 hover:bg-[#f7f8fa] transition-colors group">
+			<div>
+				<div class="text-[13px] font-medium">Users</div>
+				<div class="text-[12px] text-black/40 mt-0.5">Assign roles and manage contributor permissions</div>
+			</div>
+			<span class="text-black/20 group-hover:text-black transition-colors text-lg">→</span>
 		</a>
-	</nav>
-</main>
+	</div>
+</div>

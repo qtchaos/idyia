@@ -79,7 +79,7 @@
 </div>
 
 <!-- Table fills remaining height -->
-<div class="flex-1 overflow-auto">
+<div class="flex-1 min-h-0 overflow-auto">
 	<CompanyTable
 		{companies}
 		{hasMore}
