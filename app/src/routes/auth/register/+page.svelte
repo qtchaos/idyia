@@ -19,7 +19,7 @@
 <div class="py-20 flex justify-center">
 	<div class="w-full max-w-sm">
 		<h1 class="text-2xl mb-1">Create account</h1>
-		<p class="text-[13px] text-black/40 mb-8">You'll start as a contributor — submissions go to review</p>
+		<p class="text-[13px] text-black/40 mb-8">Start contributing now, the power to shape the future of accountability is in your hands.</p>
 
 		{#if err}
 			<div class="mb-5 px-3 py-2.5 border border-red-200 bg-red-50 rounded text-[13px] text-red-700">{err}</div>

@@ -50,6 +50,7 @@
 	<div class="flex-1 flex flex-col overflow-auto">
 		{#if isHomepage}
 			{@render children()}
+			<Footer />
 		{:else}
 			<div class="w-full max-w-3xl mx-auto px-6 py-10 flex-1">
 				{@render children()}

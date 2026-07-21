@@ -15,7 +15,8 @@
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
     "fmt": "oxfmt",
-    "lint": "oxlint"
+    "lint": "oxlint",
+    "seed": "bun run scripts/seed.ts"
   },
   "dependencies": {
     "better-auth": "^1.6.23"
