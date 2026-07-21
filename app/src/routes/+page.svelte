@@ -8,17 +8,19 @@
 
 	let { data }: { data: PageData } = $props();
 
-	let companies = $state<typeof data.companies>([]);
-	let hasMore   = $state(false);
-	let loading   = $state(true);
+	let companies   = $state<typeof data.companies>([]);
+	let hasMore     = $state(false);
+	let loading     = $state(true);
 	let animateFrom = $state(0);
+	let version     = $state(0);
 
-	// Sync when SvelteKit re-runs the server load (sort/filter navigation)
+	// Sync when SvelteKit re-runs the server load (sort/filter/search navigation)
 	$effect(() => {
 		animateFrom = 0;
-		companies = data.companies;
-		hasMore   = data.hasMore;
-		loading   = false;
+		version    += 1;
+		companies   = data.companies;
+		hasMore     = data.hasMore;
+		loading     = false;
 	});
 
 	const activeType = $derived(page.url.searchParams.get('type'));
@@ -96,6 +98,7 @@
 		{hasMore}
 		{loading}
 		{animateFrom}
+		{version}
 		showStatus={data.role === 'moderator' || data.role === 'admin'}
 	/>
 	<div bind:this={sentinel} class="h-px"></div>

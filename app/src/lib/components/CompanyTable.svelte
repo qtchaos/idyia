@@ -12,12 +12,14 @@
 		loading = false,
 		showStatus = false,
 		animateFrom = 0,
+		version = 0,
 	}: {
 		companies: Company[];
 		hasMore: boolean;
 		loading?: boolean;
 		showStatus?: boolean;
 		animateFrom?: number;
+		version?: number;
 	} = $props();
 
 	const currentSort = $derived(page.url.searchParams.get('sort') ?? 'created_at');
@@ -79,11 +81,11 @@
 					<span class="text-[11px] font-semibold text-black/50">Registered</span>
 				</th>
 
-				<th class="{hcell} w-36">
+				<th class="{hcell} w-56">
 					<span class="text-[11px] font-semibold text-black/50">Website</span>
 				</th>
 
-				<th class="{hcell} w-28">
+				<th class="{hcell} w-36">
 					<button onclick={() => toggleSort('company_type')} class="flex items-center gap-1 text-[11px] font-semibold text-black/50 hover:text-black transition-colors group">
 						Type <span class="{sortCls('company_type')} transition-colors">{sortBtn('company_type')}</span>
 					</button>
@@ -93,7 +95,7 @@
 					<span class="text-[11px] font-semibold text-black/50">Description</span>
 				</th>
 
-				<th class="{hcell} w-32">
+				<th class="{hcell} w-40">
 					<button onclick={() => toggleSort('company_size')} class="flex items-center gap-1 text-[11px] font-semibold text-black/50 hover:text-black transition-colors group">
 						Size <span class="{sortCls('company_size')} transition-colors">{sortBtn('company_size')}</span>
 					</button>
@@ -113,6 +115,7 @@
 		</thead>
 
 		<tbody>
+			{#key version}
 			{#each companies as company, i (company.id)}
 				<tr class="data-row hover:bg-[#f7f8fa]" style="--delay:{Math.max(0, i - animateFrom) * 35}ms">
 					<!-- # -->
@@ -191,6 +194,7 @@
 					{/if}
 				</tr>
 			{/each}
+			{/key}
 
 			{#if companies.length === 0 && !loading}
 				<tr>

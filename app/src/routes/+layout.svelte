@@ -1,6 +1,6 @@
 <script lang="ts">
 	import './layout.css';
-	import favicon from '$lib/assets/favicon.svg';
+	import favicon from '$lib/assets/favicon.png';
 	import type { LayoutData } from './$types';
 	import { createAuthClient } from 'better-auth/client';
 	import Logo from '$lib/components/Logo.svelte';
@@ -22,7 +22,7 @@
 
 <svelte:head>
 	<link rel="icon" href={favicon} />
-	<title>idyia</title>
+	<title>idyia - catalog of genai companies</title>
 </svelte:head>
 
 <div class="flex flex-col" style="height:100dvh">
