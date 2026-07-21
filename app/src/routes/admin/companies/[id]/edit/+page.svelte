@@ -6,13 +6,13 @@
 
 	const companySizes = [
 		{ code: 'A', label: 'Self-employed' },
-		{ code: 'B', label: '1–10 employees' },
-		{ code: 'C', label: '11–50 employees' },
-		{ code: 'D', label: '51–200 employees' },
-		{ code: 'E', label: '201–500 employees' },
-		{ code: 'F', label: '501–1,000 employees' },
-		{ code: 'G', label: '1,001–5,000 employees' },
-		{ code: 'H', label: '5,001–10,000 employees' },
+		{ code: 'B', label: '1-10 employees' },
+		{ code: 'C', label: '11-50 employees' },
+		{ code: 'D', label: '51-200 employees' },
+		{ code: 'E', label: '201-500 employees' },
+		{ code: 'F', label: '501-1,000 employees' },
+		{ code: 'G', label: '1,001-5,000 employees' },
+		{ code: 'H', label: '5,001-10,000 employees' },
 		{ code: 'I', label: '10,001+ employees' },
 	];
 
