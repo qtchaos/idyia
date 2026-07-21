@@ -4,6 +4,7 @@
 	import SearchBar from '$lib/components/SearchBar.svelte';
 	import PageSizeSelector from '$lib/components/PageSizeSelector.svelte';
 	import { page } from '$app/state';
+	import Footer from '$lib/components/Footer.svelte';
 	import { goto } from '$app/navigation';
 
 	let { data }: { data: PageData } = $props();

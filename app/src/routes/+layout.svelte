@@ -4,6 +4,7 @@
 	import type { LayoutData } from './$types';
 	import { createAuthClient } from 'better-auth/client';
 	import { page } from '$app/state';
+	import Footer from '$lib/components/Footer.svelte';
 
 	let { children, data }: { children: any; data: LayoutData } = $props();
 	const client = createAuthClient();
@@ -24,11 +25,11 @@
 </svelte:head>
 
 <div class="flex flex-col" style="height:100dvh">
-	<header class="flex items-center justify-between px-4 h-9 shrink-0 border-b border-[#e1e1e1] bg-white">
-		<a href="/" class="text-sm leading-none" style="font-family:'Avara',sans-serif; font-weight:900;">idyia</a>
+	<header class="flex items-center justify-between px-4 h-10 shrink-0 border-b border-[#e1e1e1] bg-white">
+		<a href="/" class="text-2xl leading-none font-vg pt-1">idyia</a>
 
 		<!-- Right: nav -->
-		<div class="flex items-center gap-3 text-xs">
+		<div class="flex items-center gap-3 text-sm">
 			{#if data.user}
 				{#if data.role === 'moderator' || data.role === 'admin'}
 					<a href="/admin" class="text-black/50 hover:text-black transition-colors">admin</a>
@@ -52,6 +53,7 @@
 		{:else}
 			<div class="w-full max-w-3xl mx-auto px-6 py-10 flex-1 flex flex-col">
 				{@render children()}
+				<div class="mt-auto"><Footer /></div>
 			</div>
 		{/if}
 	</div>
