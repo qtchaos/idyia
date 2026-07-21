@@ -3,6 +3,7 @@
 	import favicon from '$lib/assets/favicon.svg';
 	import type { LayoutData } from './$types';
 	import { createAuthClient } from 'better-auth/client';
+	import Logo from '$lib/components/Logo.svelte';
 	import { page } from '$app/state';
 	import Footer from '$lib/components/Footer.svelte';
 
@@ -26,7 +27,7 @@
 
 <div class="flex flex-col" style="height:100dvh">
 	<header class="flex items-center justify-between px-4 h-10 shrink-0 border-b border-[#e1e1e1] bg-white">
-		<a href="/" class="text-2xl leading-none font-vg pt-1">idyia</a>
+		<a href="/"><Logo /></a>
 
 		<!-- Right: nav -->
 		<div class="flex items-center gap-3 text-sm">
