@@ -11,7 +11,8 @@
 
 	<!-- Header -->
 	<div class="flex items-baseline gap-4 mb-8">
-		<h1 class="text-2xl">Pending</h1>
+		<a href="/admin" class="text-[12px] text-black/35 hover:text-black transition-colors mb-3 inline-block">← back</a>
+<h1 class="text-2xl">Pending</h1>
 		{#if total > 0}
 			<span class="text-[13px] text-black/35">{total} item{total === 1 ? '' : 's'}</span>
 		{/if}

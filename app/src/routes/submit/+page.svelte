@@ -57,7 +57,8 @@
 </script>
 
 	<div class="flex items-center gap-4 mb-8">
-		<h1 class="text-2xl">{selected ? 'Amend entry' : 'Submit a company'}</h1>
+		<a href="/" class="text-[12px] text-black/35 hover:text-black transition-colors mb-3 inline-block">← back</a>
+<h1 class="text-2xl">{selected ? 'Amend entry' : 'Submit a company'}</h1>
 	</div>
 
 	{#if submitted}

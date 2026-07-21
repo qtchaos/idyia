@@ -16,18 +16,6 @@
 
 	const isHomepage = $derived(page.url.pathname === '/');
 
-	function backUrl(path: string): string | null {
-		if (path === '/') return null;
-		if (path.match(/^\/admin\/companies\//)) return '/admin/pending';
-		if (path.startsWith('/admin/pending'))   return '/admin';
-		if (path.startsWith('/admin/users'))     return '/admin';
-		if (path.startsWith('/admin'))           return '/';
-		if (path.startsWith('/submit'))          return '/';
-		if (path.startsWith('/auth/'))           return '/';
-		return null;
-	}
-
-	const back = $derived(backUrl(page.url.pathname));
 </script>
 
 <svelte:head>
@@ -37,15 +25,7 @@
 
 <div class="flex flex-col" style="height:100dvh">
 	<header class="flex items-center justify-between px-4 h-9 shrink-0 border-b border-[#e1e1e1] bg-white">
-		<!-- Left: logo or back button -->
-		{#if back}
-			<a href={back} class="flex items-center gap-1.5 text-[13px] text-black/40 hover:text-black transition-colors">
-				<span class="text-base leading-none">←</span>
-				<span>back</span>
-			</a>
-		{:else}
-			<a href="/" class="text-sm leading-none">idyia</a>
-		{/if}
+		<a href="/" class="text-sm leading-none" style="font-family:'Avara',sans-serif; font-weight:900;">idyia</a>
 
 		<!-- Right: nav -->
 		<div class="flex items-center gap-3 text-xs">
