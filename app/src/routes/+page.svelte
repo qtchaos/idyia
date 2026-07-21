@@ -28,37 +28,32 @@
 	}
 </script>
 
-<main class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-	<div class="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-		<div>
-			<h1 class="text-2xl font-bold tracking-tight">Companies using AI</h1>
-			<p class="text-sm text-black/40 mt-0.5">A community-maintained directory</p>
-		</div>
-		<div class="flex flex-wrap items-center gap-3">
-			<SearchBar />
-			<PageSizeSelector />
-			{#if data.user}
-				<a
-					href="/submit"
-					class="px-3 py-1.5 text-sm bg-black text-white rounded hover:bg-black/80 transition-colors"
-				>+ Submit</a>
-			{:else}
-				<a
-					href="/auth/login"
-					class="px-3 py-1.5 text-sm border border-black/20 rounded hover:bg-black/5 transition-colors"
-				>Sign in to submit</a>
-			{/if}
-		</div>
-	</div>
-
-	<CompanyTable
-		{companies}
-		{hasMore}
-		showStatus={data.role === 'moderator' || data.role === 'admin'}
-		onLoadMore={loadMore}
-	/>
-
-	{#if loading}
-		<p class="text-center text-xs text-black/30 py-4">Loading…</p>
+<!-- Toolbar: h-9 = 36px so sticky thead = top-[72px] (36 nav + 36 toolbar) -->
+<div class="h-9 flex items-center border-b border-[#e1e1e1] bg-white px-3 gap-3">
+	<SearchBar />
+	<div class="w-px h-4 bg-black/10"></div>
+	<PageSizeSelector />
+	{#if data.user}
+		<div class="w-px h-4 bg-black/10"></div>
+		<a
+			href="/submit"
+			class="h-6 px-3 text-[11px] bg-black text-white rounded hover:bg-black/75 transition-colors flex items-center"
+		>+ submit</a>
 	{/if}
-</main>
+	<div class="ml-auto text-[11px] text-black/25">
+		{#if !data.user}
+			<a href="/auth/login" class="hover:text-black underline">sign in to submit</a>
+		{/if}
+	</div>
+</div>
+
+<CompanyTable
+	{companies}
+	{hasMore}
+	showStatus={data.role === 'moderator' || data.role === 'admin'}
+	onLoadMore={loadMore}
+/>
+
+{#if loading}
+	<div class="py-3 text-center text-[11px] text-black/25">loading…</div>
+{/if}

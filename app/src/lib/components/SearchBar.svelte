@@ -19,8 +19,8 @@
 
 <input
 	type="search"
-	placeholder="Search companies…"
+	placeholder="Search…"
 	{value}
 	oninput={onInput}
-	class="w-full sm:w-72 px-3 py-1.5 text-sm border border-black/20 rounded bg-white placeholder:text-black/30 focus:outline-none focus:border-black/60"
+	class="h-6 w-48 px-2 text-[12px] border border-black/15 rounded bg-white placeholder:text-black/25 focus:outline-none focus:border-black/40"
 />

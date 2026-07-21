@@ -19,7 +19,7 @@
 	} = $props();
 
 	const currentSort = $derived(page.url.searchParams.get('sort') ?? 'created_at');
-	const currentDir = $derived(page.url.searchParams.get('dir') ?? 'desc');
+	const currentDir  = $derived(page.url.searchParams.get('dir')  ?? 'desc');
 
 	function toggleSort(col: string) {
 		const params = new URLSearchParams(page.url.searchParams);
@@ -32,107 +32,169 @@
 		goto(`?${params}`, { replaceState: true });
 	}
 
-	type Col = { key: string; label: string; sortable?: boolean };
-	const baseCols: Col[] = [
-		{ key: 'name', label: 'Company', sortable: true },
-		{ key: 'company_type', label: 'Type', sortable: true },
-		{ key: 'description', label: 'Description' },
-		{ key: 'company_size', label: 'Size', sortable: true },
-	];
-	const cols = $derived(showStatus ? [...baseCols, { key: 'status', label: 'Status' }] : baseCols);
+	function hostname(url: string) {
+		try { return new URL(url).hostname.replace(/^www\./, ''); }
+		catch { return url; }
+	}
 
 	let expandedId = $state<string | null>(null);
+
+	// shared cell border classes
+	const cell  = 'border-b border-r border-[#e1e1e1] px-3 h-8 overflow-hidden';
+	const hcell = 'border-b-2 border-r border-[#e1e1e1] px-3 h-8 text-left align-middle bg-white';
 </script>
 
-<div class="overflow-x-auto">
-	<table class="w-full text-sm border-collapse">
-		<thead>
-			<tr class="border-b-2 border-black">
-				{#each cols as col}
-					<th
-						class="text-left px-3 py-2.5 font-semibold text-xs uppercase tracking-wide text-black/50 whitespace-nowrap"
-					>
-						{#if col.sortable}
-							<button
-								onclick={() => toggleSort(col.key)}
-								class="flex items-center gap-1 hover:text-black transition-colors"
-							>
-								{col.label}
-								{#if currentSort === col.key}
-									<span class="text-black">{currentDir === 'asc' ? '↑' : '↓'}</span>
-								{:else}
-									<span class="text-black/20">↕</span>
-								{/if}
-							</button>
-						{:else}
-							{col.label}
-						{/if}
-					</th>
-				{/each}
-				<th class="px-3 py-2.5 w-8"></th>
+<div class="w-full overflow-x-auto">
+	<table
+		class="w-full text-[13px] border-separate border-spacing-0 border-l border-t border-[#e1e1e1]"
+		style="min-width: 900px"
+	>
+		<thead class="sticky top-[72px] z-10">
+			<tr>
+				<!-- Row number gutter -->
+				<th class="{hcell} w-10 bg-[#f9f9f9] border-b-2"></th>
+
+				<!-- Company -->
+				<th class="{hcell} w-44">
+					<button onclick={() => toggleSort('name')} class="flex items-center gap-1 text-[11px] font-semibold uppercase tracking-widest text-black/40 hover:text-black transition-colors group">
+						Company
+						<span class="{currentSort === 'name' ? 'text-black' : 'text-black/20 group-hover:text-black/40'} transition-colors">
+							{currentSort === 'name' ? (currentDir === 'asc' ? '↑' : '↓') : '↕'}
+						</span>
+					</button>
+				</th>
+
+				<!-- Registered -->
+				<th class="{hcell} w-40">
+					<span class="text-[11px] font-semibold uppercase tracking-widest text-black/40">Registered</span>
+				</th>
+
+				<!-- Website -->
+				<th class="{hcell} w-36">
+					<span class="text-[11px] font-semibold uppercase tracking-widest text-black/40">Website</span>
+				</th>
+
+				<!-- Type -->
+				<th class="{hcell} w-32">
+					<button onclick={() => toggleSort('company_type')} class="flex items-center gap-1 text-[11px] font-semibold uppercase tracking-widest text-black/40 hover:text-black transition-colors group">
+						Type
+						<span class="{currentSort === 'company_type' ? 'text-black' : 'text-black/20 group-hover:text-black/40'} transition-colors">
+							{currentSort === 'company_type' ? (currentDir === 'asc' ? '↑' : '↓') : '↕'}
+						</span>
+					</button>
+				</th>
+
+				<!-- Description -->
+				<th class="{hcell}">
+					<span class="text-[11px] font-semibold uppercase tracking-widest text-black/40">Description</span>
+				</th>
+
+				<!-- Size -->
+				<th class="{hcell} w-36 {showStatus ? '' : 'border-r-0'}">
+					<button onclick={() => toggleSort('company_size')} class="flex items-center gap-1 text-[11px] font-semibold uppercase tracking-widest text-black/40 hover:text-black transition-colors group">
+						Size
+						<span class="{currentSort === 'company_size' ? 'text-black' : 'text-black/20 group-hover:text-black/40'} transition-colors">
+							{currentSort === 'company_size' ? (currentDir === 'asc' ? '↑' : '↓') : '↕'}
+						</span>
+					</button>
+				</th>
+
+				{#if showStatus}
+				<!-- Status -->
+				<th class="{hcell} w-28 border-r-0">
+					<span class="text-[11px] font-semibold uppercase tracking-widest text-black/40">Status</span>
+				</th>
+				{/if}
 			</tr>
 		</thead>
+
 		<tbody>
-			{#each companies as company (company.id)}
+			{#each companies as company, i (company.id)}
 				<tr
-					class="border-b border-black/8 hover:bg-black/[0.015] cursor-pointer transition-colors"
+					class="group hover:bg-[#f7f8fa] cursor-pointer"
 					onclick={() => (expandedId = expandedId === company.id ? null : company.id)}
 				>
-					<td class="px-3 py-2.5 font-medium">
-						<div class="flex flex-col leading-tight">
-							<span>{company.name}</span>
-							{#if company.registeredName}
+					<!-- Row number -->
+					<td class="border-b border-r border-[#e1e1e1] h-8 w-10 text-right pr-2 text-[11px] text-black/25 align-middle bg-[#f9f9f9] select-none">
+						{i + 1}
+					</td>
+
+					<!-- Company name -->
+					<td class="{cell} align-middle font-medium text-black whitespace-nowrap">
+						<span class="block truncate">{company.name}</span>
+					</td>
+
+					<!-- Registered name -->
+					<td class="{cell} align-middle">
+						{#if company.registeredName}
+							{#if company.registryUrl}
 								<a
-									href={company.registryUrl ?? '#'}
+									href={company.registryUrl}
 									target="_blank"
 									rel="noopener noreferrer"
-									class="text-xs text-black/35 hover:text-black underline underline-offset-2"
+									class="block truncate text-black/60 underline underline-offset-2 hover:text-black transition-colors"
 									onclick={(e) => e.stopPropagation()}
 								>{company.registeredName}</a>
+							{:else}
+								<span class="block truncate text-black/60">{company.registeredName}</span>
 							{/if}
-						</div>
+						{:else}
+							<span class="text-black/15">—</span>
+						{/if}
 					</td>
-					<td class="px-3 py-2.5">
-						<TypeBadge type={company.companyType} />
-					</td>
-					<td class="px-3 py-2.5 text-black/60 max-w-xs">
-						<span class="line-clamp-2">{company.description}</span>
-					</td>
-					<td class="px-3 py-2.5">
-						<SizeBadge code={company.companySize as any} />
-					</td>
-					{#if showStatus}
-						<td class="px-3 py-2.5">
-							<StatusBadge status={company.status} />
-						</td>
-					{/if}
-					<td class="px-3 py-2.5 text-right">
+
+					<!-- Website -->
+					<td class="{cell} align-middle">
 						<a
 							href={company.website}
 							target="_blank"
 							rel="noopener noreferrer"
-							class="text-black/30 hover:text-black transition-colors"
+							class="block truncate text-black/60 underline underline-offset-2 hover:text-black transition-colors"
 							onclick={(e) => e.stopPropagation()}
-							title="Visit website"
-						>↗</a>
+						>{hostname(company.website)}</a>
 					</td>
+
+					<!-- Type badge -->
+					<td class="{cell} align-middle">
+						<TypeBadge type={company.companyType} />
+					</td>
+
+					<!-- Description -->
+					<td class="{cell} align-middle text-black/55">
+						<span class="block truncate">{company.description}</span>
+					</td>
+
+					<!-- Size badge -->
+					<td class="{cell} align-middle {showStatus ? '' : 'border-r-0'}">
+						<SizeBadge code={company.companySize as any} />
+					</td>
+
+					{#if showStatus}
+					<!-- Status badge -->
+					<td class="{cell} align-middle border-r-0">
+						<StatusBadge status={company.status} />
+					</td>
+					{/if}
 				</tr>
+
+				<!-- Expanded detail row -->
 				{#if expandedId === company.id}
-					<tr class="bg-black/[0.015] border-b border-black/8">
-						<td colspan={cols.length + 1} class="px-4 py-4">
-							<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
-								<div>
-									<p class="text-xs text-black/40 uppercase tracking-wide mb-1">Full description</p>
-									<p class="text-black/80">{company.description}</p>
+					<tr class="bg-[#fafafa]">
+						<td class="border-b border-r border-[#e1e1e1] bg-[#f9f9f9]"></td>
+						<td colspan={showStatus ? 7 : 6} class="border-b border-r-0 border-[#e1e1e1] px-4 py-3">
+							<div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-[12px]">
+								<div class="sm:col-span-2">
+									<p class="text-[10px] text-black/30 uppercase tracking-widest mb-1">Description</p>
+									<p class="text-black/70 leading-relaxed">{company.description}</p>
 								</div>
 								{#if company.imageOrigin || company.imageUrl}
 									<div>
-										<p class="text-xs text-black/40 uppercase tracking-wide mb-1">Source</p>
+										<p class="text-[10px] text-black/30 uppercase tracking-widest mb-1">Source</p>
 										<a
 											href={company.imageOrigin ?? company.imageUrl ?? '#'}
 											target="_blank"
 											rel="noopener noreferrer"
-											class="underline text-black/50 hover:text-black text-xs break-all"
+											class="text-black/50 hover:text-black underline underline-offset-2 break-all leading-relaxed"
 										>{company.imageOrigin ?? company.imageUrl}</a>
 									</div>
 								{/if}
@@ -141,24 +203,30 @@
 					</tr>
 				{/if}
 			{/each}
+
+			<!-- Load more / count row -->
+			{#if companies.length === 0}
+				<tr>
+					<td colspan={showStatus ? 9 : 8} class="border-b border-[#e1e1e1] py-16 text-center text-sm text-black/25">
+						No companies found.
+					</td>
+				</tr>
+			{:else if hasMore}
+				<tr>
+					<td colspan={showStatus ? 9 : 8} class="border-b border-[#e1e1e1] py-3 text-center">
+						<button
+							onclick={onLoadMore}
+							class="px-4 py-1.5 text-[11px] border border-black/20 rounded hover:bg-black hover:text-white transition-colors uppercase tracking-wide"
+						>Load more</button>
+					</td>
+				</tr>
+			{:else}
+				<tr>
+					<td colspan={showStatus ? 9 : 8} class="border-b border-[#e1e1e1] py-2 pl-3 text-[11px] text-black/20">
+						{companies.length} {companies.length === 1 ? 'record' : 'records'}
+					</td>
+				</tr>
+			{/if}
 		</tbody>
 	</table>
-
-	{#if companies.length === 0}
-		<p class="py-12 text-center text-sm text-black/30">No companies found.</p>
-	{:else if hasMore}
-		<div class="py-6 text-center">
-			<button
-				onclick={onLoadMore}
-				class="px-4 py-2 text-sm border border-black/20 rounded hover:bg-black hover:text-white transition-colors"
-			>
-				Load more
-			</button>
-		</div>
-	{:else}
-		<p class="py-4 text-center text-xs text-black/25">
-			{companies.length}
-			{companies.length === 1 ? 'entry' : 'entries'}
-		</p>
-	{/if}
 </div>

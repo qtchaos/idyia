@@ -5,7 +5,6 @@
 	import { createAuthClient } from 'better-auth/client';
 
 	let { children, data }: { children: any; data: LayoutData } = $props();
-
 	const client = createAuthClient();
 
 	async function logout() {
@@ -20,26 +19,22 @@
 	<title>idyia</title>
 </svelte:head>
 
-<nav class="border-b border-black/10 px-4 sm:px-6 py-3 flex items-center justify-between bg-white sticky top-0 z-10">
-	<a href="/" class="font-bold text-sm tracking-tight">idyia</a>
-	<div class="flex items-center gap-4 text-sm">
+<!-- Slim top bar -->
+<header class="flex items-center justify-between px-4 h-9 border-b border-[#e1e1e1] bg-white">
+	<a href="/" class="font-display font-black text-sm tracking-tight leading-none" style="font-family:'Avara',sans-serif; font-weight:900;">idyia</a>
+
+	<div class="flex items-center gap-3 text-xs">
 		{#if data.user}
 			{#if data.role === 'moderator' || data.role === 'admin'}
-				<a href="/admin" class="text-black/50 hover:text-black transition-colors text-xs">Admin</a>
+				<a href="/admin" class="text-black/50 hover:text-black transition-colors">admin</a>
 			{/if}
-			<a href="/submit" class="text-black/50 hover:text-black transition-colors text-xs">Submit</a>
-			<span class="text-black/25 text-xs hidden sm:inline">{data.user.name}</span>
-			<button onclick={logout} class="text-black/35 hover:text-black transition-colors text-xs">
-				Sign out
-			</button>
+			<a href="/submit" class="text-black/50 hover:text-black transition-colors">submit</a>
+			<button onclick={logout} class="text-black/35 hover:text-black transition-colors">sign out</button>
 		{:else}
-			<a href="/auth/login" class="text-black/50 hover:text-black transition-colors text-xs">Sign in</a>
-			<a
-				href="/auth/register"
-				class="px-3 py-1.5 bg-black text-white rounded text-xs hover:bg-black/80 transition-colors"
-			>Register</a>
+			<a href="/auth/register" class="text-black/50 hover:text-black transition-colors">register</a>
+			<a href="/auth/login" class="px-2.5 py-1 bg-black text-white rounded hover:bg-black/80 transition-colors">sign in</a>
 		{/if}
 	</div>
-</nav>
+</header>
 
 {@render children()}

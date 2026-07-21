@@ -13,14 +13,13 @@
 	}
 </script>
 
-<div class="flex items-center gap-1 text-sm">
-	<span class="text-black/40 mr-1 text-xs">Show</span>
+<div class="flex items-center gap-0.5">
 	{#each sizes as n}
 		<button
 			onclick={() => select(n)}
-			class="px-2 py-1 border rounded text-xs font-mono transition-colors {current === n
+			class="h-6 px-2 text-[11px] font-mono border rounded transition-colors {current === n
 				? 'bg-black text-white border-black'
-				: 'border-black/20 hover:border-black/50'}"
+				: 'border-black/15 text-black/50 hover:border-black/40 hover:text-black'}"
 		>{n}</button>
 	{/each}
 </div>
