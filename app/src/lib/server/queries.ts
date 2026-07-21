@@ -34,6 +34,7 @@ export type SortDir = "asc" | "desc";
 
 export interface CompanyQuery {
   limit?: number;
+  offset?: number;
   sort?: SortField;
   dir?: SortDir;
   q?: string;
@@ -92,6 +93,7 @@ export async function queryCompanies(opts: CompanyQuery) {
     .from(companies)
     .where(where)
     .orderBy(orderFn(orderCol))
+    .offset(opts.offset ?? 0)
     .limit(limit + 1);
 
   const hasMore = rows.length > limit;

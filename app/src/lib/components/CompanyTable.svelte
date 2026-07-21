@@ -10,12 +10,10 @@
 		companies,
 		hasMore,
 		showStatus = false,
-		onLoadMore,
 	}: {
 		companies: Company[];
 		hasMore: boolean;
 		showStatus?: boolean;
-		onLoadMore?: () => void;
 	} = $props();
 
 	const currentSort = $derived(page.url.searchParams.get('sort') ?? 'created_at');
@@ -198,10 +196,8 @@
 				</tr>
 			{:else if hasMore}
 				<tr>
-					<td colspan={totalCols} class="border-b border-[#e1e1e1] py-3 text-center">
-						<button onclick={onLoadMore}
-							class="px-4 py-1.5 text-[11px] border border-black/20 rounded hover:bg-black hover:text-white transition-colors uppercase tracking-wide"
-						>Load more</button>
+					<td colspan={totalCols} class="border-b border-[#e1e1e1] py-3 pl-3 text-[11px] text-black/20">
+						{companies.length} {companies.length === 1 ? 'record' : 'records'} · loading more…
 					</td>
 				</tr>
 			{:else}
