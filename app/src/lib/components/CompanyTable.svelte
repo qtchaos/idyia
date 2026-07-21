@@ -62,7 +62,7 @@
 
 <div class="w-full overflow-x-auto">
 	<table
-		class="w-full text-[13px] border-separate border-spacing-0 border-l border-t border-[#e1e1e1]"
+		class="w-full table-fixed text-[13px] border-separate border-spacing-0 border-l border-t border-[#e1e1e1]"
 		style="min-width: 1000px"
 	>
 		<thead class="header-row">
