@@ -2,7 +2,6 @@
 	import type { PageData } from './$types';
 	import CompanyTable from '$lib/components/CompanyTable.svelte';
 	import SearchBar from '$lib/components/SearchBar.svelte';
-	import PageSizeSelector from '$lib/components/PageSizeSelector.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
@@ -13,7 +12,6 @@
 	let hasMore   = $state(false);
 	let loading   = $state(false);
 
-	// Reset when server data changes (sort/filter/search navigation)
 	$effect(() => {
 		companies = data.companies;
 		hasMore   = data.hasMore;
@@ -29,8 +27,8 @@
 	}
 
 	// ── Infinite scroll ────────────────────────────────────────────────────
-	let scrollEl: HTMLDivElement;
-	let sentinel: HTMLDivElement;
+	let scrollEl:  HTMLDivElement;
+	let sentinel:  HTMLDivElement;
 
 	async function loadMore() {
 		if (loading || !hasMore) return;
@@ -46,10 +44,9 @@
 
 	$effect(() => {
 		if (!sentinel || !scrollEl) return;
-
 		const obs = new IntersectionObserver(
 			(entries) => { if (entries[0].isIntersecting) loadMore(); },
-			{ root: scrollEl, rootMargin: '200px' }
+			{ root: scrollEl, rootMargin: '300px' }
 		);
 		obs.observe(sentinel);
 		return () => obs.disconnect();
@@ -59,8 +56,6 @@
 <!-- Toolbar -->
 <div class="h-9 shrink-0 flex items-center border-b border-[#e1e1e1] bg-white px-3 gap-3">
 	<SearchBar />
-	<div class="w-px h-4 bg-black/10"></div>
-	<PageSizeSelector />
 
 	{#if activeType}
 		<div class="w-px h-4 bg-black/10"></div>
@@ -89,20 +84,14 @@
 	{/if}
 </div>
 
-<!-- Scroll container — root for IntersectionObserver -->
+<!-- Scroll container -->
 <div class="flex-1 min-h-0 overflow-auto" bind:this={scrollEl}>
 	<CompanyTable
 		{companies}
 		{hasMore}
+		{loading}
 		showStatus={data.role === 'moderator' || data.role === 'admin'}
 	/>
 
-	<!-- Sentinel: entering viewport triggers loadMore -->
 	<div bind:this={sentinel} class="h-px"></div>
-
-	{#if loading}
-		<div class="py-3 text-center text-[11px] text-black/25">loading…</div>
-	{/if}
-
-	<Footer />
 </div>

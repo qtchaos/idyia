@@ -4,7 +4,7 @@ import type { Role } from "$lib/server/db/schema";
 import type { SortField, SortDir } from "$lib/server/queries";
 
 export const load: PageServerLoad = async ({ url, locals }) => {
-  const limit = Math.min(Number(url.searchParams.get("limit") ?? "50"), 100);
+  const limit = 50;
   const sort = (url.searchParams.get("sort") ?? "created_at") as SortField;
   const dir = (url.searchParams.get("dir") ?? "desc") as SortDir;
   const q = url.searchParams.get("q") ?? undefined;

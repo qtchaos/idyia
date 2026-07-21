@@ -9,10 +9,12 @@
 	let {
 		companies,
 		hasMore,
+		loading = false,
 		showStatus = false,
 	}: {
 		companies: Company[];
 		hasMore: boolean;
+		loading?: boolean;
 		showStatus?: boolean;
 	} = $props();
 
@@ -194,12 +196,6 @@
 						No companies found.
 					</td>
 				</tr>
-			{:else if hasMore}
-				<tr>
-					<td colspan={totalCols} class="border-b border-[#e1e1e1] py-3 pl-3 text-[11px] text-black/20">
-						{companies.length} {companies.length === 1 ? 'record' : 'records'} · loading more…
-					</td>
-				</tr>
 			{:else}
 				<tr>
 					<td colspan={totalCols} class="border-b border-[#e1e1e1] py-2 pl-3 text-[11px] text-black/20">
@@ -207,6 +203,57 @@
 					</td>
 				</tr>
 			{/if}
+
+			<!-- Skeleton rows shown while loading more -->
+			{#if loading}
+				{#each { length: 8 } as _, i}
+					<tr class="skeleton-row" style="--i:{i}">
+						<td class="border-b border-r border-[#e1e1e1] h-8 w-10 bg-[#f9f9f9]"></td>
+						<td class="border-b border-r border-[#e1e1e1] h-8 px-3 align-middle">
+							<div class="skel" style="width:{40 + ((i * 23 + 7) % 35)}%"></div>
+						</td>
+						<td class="border-b border-r border-[#e1e1e1] h-8 px-3 align-middle">
+							<div class="skel" style="width:{30 + ((i * 17 + 3) % 30)}%"></div>
+						</td>
+						<td class="border-b border-r border-[#e1e1e1] h-8 px-3 align-middle">
+							<div class="skel" style="width:{35 + ((i * 11) % 25)}%"></div>
+						</td>
+						<td class="border-b border-r border-[#e1e1e1] h-8 px-3 align-middle">
+							<div class="skel" style="width:52px"></div>
+						</td>
+						<td class="border-b border-r border-[#e1e1e1] h-8 px-3 align-middle">
+							<div class="skel" style="width:{55 + ((i * 31 + 5) % 35)}%"></div>
+						</td>
+						<td class="border-b border-r border-[#e1e1e1] h-8 px-3 align-middle">
+							<div class="skel" style="width:44px"></div>
+						</td>
+						<td class="border-b {showStatus ? 'border-r border-[#e1e1e1]' : 'border-[#e1e1e1]'} h-8 px-3 align-middle">
+							<div class="skel" style="width:{30 + ((i * 19) % 40)}%"></div>
+						</td>
+						{#if showStatus}
+							<td class="border-b border-r border-[#e1e1e1] h-8 px-3 align-middle">
+								<div class="skel" style="width:48px"></div>
+							</td>
+							<td class="border-b border-[#e1e1e1] h-8 w-14"></td>
+						{/if}
+					</tr>
+				{/each}
+			{/if}
 		</tbody>
 	</table>
 </div>
+
+<style>
+	.skel {
+		height: 9px;
+		border-radius: 3px;
+		background: #e8e8e8;
+		animation: shimmer 1.6s ease-in-out infinite;
+		animation-delay: calc(var(--i, 0) * 60ms);
+	}
+
+	@keyframes shimmer {
+		0%, 100% { opacity: 0.35; }
+		50%       { opacity: 0.85; }
+	}
+</style>
