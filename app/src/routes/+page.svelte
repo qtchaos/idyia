@@ -5,6 +5,7 @@
 	import Footer from '$lib/components/Footer.svelte';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
+	import { untrack } from 'svelte';
 
 	let { data }: { data: PageData } = $props();
 
@@ -17,7 +18,7 @@
 	// Sync when SvelteKit re-runs the server load (sort/filter/search navigation)
 	$effect(() => {
 		animateFrom = 0;
-		version    += 1;
+		untrack(() => version++);
 		companies   = data.companies;
 		hasMore     = data.hasMore;
 		loading     = false;
