@@ -56,7 +56,7 @@
 
 				<!-- Company -->
 				<th class="{hcell} w-44">
-					<button onclick={() => toggleSort('name')} class="flex items-center gap-1 text-[11px] font-semibold uppercase tracking-widest text-black/40 hover:text-black transition-colors group">
+					<button onclick={() => toggleSort('name')} class="flex items-center gap-1 text-[11px] font-semibold text-black/50 hover:text-black transition-colors group">
 						Company
 						<span class="{currentSort === 'name' ? 'text-black' : 'text-black/20 group-hover:text-black/40'} transition-colors">
 							{currentSort === 'name' ? (currentDir === 'asc' ? '↑' : '↓') : '↕'}
@@ -66,17 +66,17 @@
 
 				<!-- Registered -->
 				<th class="{hcell} w-40">
-					<span class="text-[11px] font-semibold uppercase tracking-widest text-black/40">Registered</span>
+					<span class="text-[11px] font-semibold text-black/50">Registered</span>
 				</th>
 
 				<!-- Website -->
 				<th class="{hcell} w-36">
-					<span class="text-[11px] font-semibold uppercase tracking-widest text-black/40">Website</span>
+					<span class="text-[11px] font-semibold text-black/50">Website</span>
 				</th>
 
 				<!-- Type -->
 				<th class="{hcell} w-32">
-					<button onclick={() => toggleSort('company_type')} class="flex items-center gap-1 text-[11px] font-semibold uppercase tracking-widest text-black/40 hover:text-black transition-colors group">
+					<button onclick={() => toggleSort('company_type')} class="flex items-center gap-1 text-[11px] font-semibold text-black/50 hover:text-black transition-colors group">
 						Type
 						<span class="{currentSort === 'company_type' ? 'text-black' : 'text-black/20 group-hover:text-black/40'} transition-colors">
 							{currentSort === 'company_type' ? (currentDir === 'asc' ? '↑' : '↓') : '↕'}
@@ -86,12 +86,12 @@
 
 				<!-- Description -->
 				<th class="{hcell}">
-					<span class="text-[11px] font-semibold uppercase tracking-widest text-black/40">Description</span>
+					<span class="text-[11px] font-semibold text-black/50">Description</span>
 				</th>
 
 				<!-- Size -->
 				<th class="{hcell} w-36 {showStatus ? '' : 'border-r-0'}">
-					<button onclick={() => toggleSort('company_size')} class="flex items-center gap-1 text-[11px] font-semibold uppercase tracking-widest text-black/40 hover:text-black transition-colors group">
+					<button onclick={() => toggleSort('company_size')} class="flex items-center gap-1 text-[11px] font-semibold text-black/50 hover:text-black transition-colors group">
 						Size
 						<span class="{currentSort === 'company_size' ? 'text-black' : 'text-black/20 group-hover:text-black/40'} transition-colors">
 							{currentSort === 'company_size' ? (currentDir === 'asc' ? '↑' : '↓') : '↕'}
@@ -102,7 +102,7 @@
 				{#if showStatus}
 				<!-- Status -->
 				<th class="{hcell} w-28 border-r-0">
-					<span class="text-[11px] font-semibold uppercase tracking-widest text-black/40">Status</span>
+					<span class="text-[11px] font-semibold text-black/50">Status</span>
 				</th>
 				{/if}
 			</tr>
@@ -184,12 +184,12 @@
 						<td colspan={showStatus ? 7 : 6} class="border-b border-r-0 border-[#e1e1e1] px-4 py-3">
 							<div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-[12px]">
 								<div class="sm:col-span-2">
-									<p class="text-[10px] text-black/30 uppercase tracking-widest mb-1">Description</p>
+									<p class="text-[10px] text-black/30 mb-1">Description</p>
 									<p class="text-black/70 leading-relaxed">{company.description}</p>
 								</div>
 								{#if company.imageOrigin || company.imageUrl}
 									<div>
-										<p class="text-[10px] text-black/30 uppercase tracking-widest mb-1">Source</p>
+										<p class="text-[10px] text-black/30 mb-1">Source</p>
 										<a
 											href={company.imageOrigin ?? company.imageUrl ?? '#'}
 											target="_blank"
