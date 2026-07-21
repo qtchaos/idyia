@@ -27,9 +27,7 @@
 	}
 </script>
 
-<div class="max-w-3xl mx-auto px-4 py-10">
 	<div class="flex items-baseline gap-4 mb-8">
-		<a href="/admin" class="text-[13px] text-black/35 hover:text-black transition-colors">← admin</a>
 		<h1 class="text-2xl">Users</h1>
 		<span class="text-[13px] text-black/35">{users.length} total</span>
 	</div>
@@ -64,4 +62,3 @@
 			<div class="px-4 py-8 text-center text-[13px] text-black/30">No users yet.</div>
 		{/if}
 	</div>
-</div>

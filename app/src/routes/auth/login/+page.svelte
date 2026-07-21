@@ -20,7 +20,7 @@
 	}
 </script>
 
-<div class="flex-1 flex items-center justify-center px-4">
+<div class="flex-1 flex items-center justify-center">
 	<div class="w-full max-w-sm">
 		<h1 class="text-2xl mb-1">Sign in</h1>
 		<p class="text-[13px] text-black/40 mb-8">Welcome back to idyia</p>
@@ -64,4 +64,5 @@
 			No account? <a href="/auth/register" class="text-black hover:underline">Register</a>
 		</p>
 	</div>
+
 </div>

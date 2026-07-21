@@ -8,11 +8,9 @@
 	const total = $derived(data.pending.length + data.amendments.length);
 </script>
 
-<div class="max-w-4xl mx-auto px-4 py-10">
 
 	<!-- Header -->
 	<div class="flex items-baseline gap-4 mb-8">
-		<a href="/admin" class="text-[13px] text-black/35 hover:text-black transition-colors">← admin</a>
 		<h1 class="text-2xl">Pending</h1>
 		{#if total > 0}
 			<span class="text-[13px] text-black/35">{total} item{total === 1 ? '' : 's'}</span>
@@ -119,35 +117,31 @@
 						<!-- Before / after diff -->
 						{#if a.descriptionAfter !== null}
 							<div class="grid grid-cols-2 divide-x divide-[#e1e1e1]">
-								<div class="px-4 py-3">
-									<p class="text-[11px] text-black/30 mb-2">Before</p>
-									<p class="text-[13px] text-black/55 leading-relaxed">{a.descriptionBefore}</p>
-								</div>
-								<div class="px-4 py-3 bg-[#f6fdf7]">
-									<p class="text-[11px] text-black/30 mb-2">After</p>
-									<p class="text-[13px] text-black/80 leading-relaxed">{a.descriptionAfter}</p>
-								</div>
+								<p class="text-[11px] text-black/30 mb-2">Before</p>
+								<p class="text-[13px] text-black/55 leading-relaxed">{a.descriptionBefore}</p>
+							</div>
+							<div class="px-4 py-3 bg-[#f6fdf7]">
+								<p class="text-[11px] text-black/30 mb-2">After</p>
+								<p class="text-[13px] text-black/80 leading-relaxed">{a.descriptionAfter}</p>
 							</div>
 						{/if}
 
 						{#if a.imageOriginAfter !== null}
 							<div class="grid grid-cols-2 divide-x divide-[#e1e1e1] border-t border-[#e1e1e1]">
-								<div class="px-4 py-3">
-									<p class="text-[11px] text-black/30 mb-2">Source — before</p>
-									{#if a.imageOriginBefore}
-										<a href={a.imageOriginBefore} target="_blank" rel="noopener noreferrer"
-											class="text-[13px] text-black/45 underline underline-offset-2 hover:text-black break-all"
-										>{a.imageOriginBefore}</a>
-									{:else}
-										<span class="text-[13px] text-black/20">—</span>
-									{/if}
-								</div>
-								<div class="px-4 py-3 bg-[#f6fdf7]">
-									<p class="text-[11px] text-black/30 mb-2">Source — after</p>
-									<a href={a.imageOriginAfter} target="_blank" rel="noopener noreferrer"
-										class="text-[13px] text-black/70 underline underline-offset-2 hover:text-black break-all"
-									>{a.imageOriginAfter}</a>
-								</div>
+								<p class="text-[11px] text-black/30 mb-2">Source — before</p>
+								{#if a.imageOriginBefore}
+									<a href={a.imageOriginBefore} target="_blank" rel="noopener noreferrer"
+										class="text-[13px] text-black/45 underline underline-offset-2 hover:text-black break-all"
+									>{a.imageOriginBefore}</a>
+								{:else}
+									<span class="text-[13px] text-black/20">—</span>
+								{/if}
+							</div>
+							<div class="px-4 py-3 bg-[#f6fdf7]">
+								<p class="text-[11px] text-black/30 mb-2">Source — after</p>
+								<a href={a.imageOriginAfter} target="_blank" rel="noopener noreferrer"
+									class="text-[13px] text-black/70 underline underline-offset-2 hover:text-black break-all"
+								>{a.imageOriginAfter}</a>
 							</div>
 						{/if}
 					</div>
@@ -155,4 +149,3 @@
 			</div>
 		</div>
 	{/if}
-</div>

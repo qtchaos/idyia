@@ -56,9 +56,7 @@
 	const fieldCls = 'flex flex-col gap-1.5';
 </script>
 
-<div class="max-w-lg mx-auto px-4 py-10">
 	<div class="flex items-center gap-4 mb-8">
-		<a href="/" class="text-[13px] text-black/35 hover:text-black transition-colors">← back</a>
 		<h1 class="text-2xl">{selected ? 'Amend entry' : 'Submit a company'}</h1>
 	</div>
 
@@ -203,4 +201,3 @@
 			</button>
 		</form>
 	{/if}
-</div>

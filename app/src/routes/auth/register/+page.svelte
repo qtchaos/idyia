@@ -16,7 +16,7 @@
 	}
 </script>
 
-<div class="flex-1 flex items-center justify-center px-4">
+<div class="flex-1 flex items-center justify-center">
 	<div class="w-full max-w-sm">
 		<h1 class="text-2xl mb-1">Create account</h1>
 		<p class="text-[13px] text-black/40 mb-8">You'll start as a contributor — submissions go to review</p>
@@ -52,4 +52,5 @@
 			Already have an account? <a href="/auth/login" class="text-black hover:underline">Sign in</a>
 		</p>
 	</div>
+
 </div>

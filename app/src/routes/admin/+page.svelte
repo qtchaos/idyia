@@ -3,7 +3,6 @@
 	let { data }: { data: PageData } = $props();
 </script>
 
-<div class="max-w-xl mx-auto px-4 py-10">
 	<h1 class="text-2xl mb-1">Admin</h1>
 	<p class="text-[13px] text-black/40 mb-8">Manage submissions, amendments, and users</p>
 
@@ -25,4 +24,3 @@
 			<span class="text-black/20 group-hover:text-black transition-colors text-lg">→</span>
 		</a>
 	</div>
-</div>
