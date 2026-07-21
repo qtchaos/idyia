@@ -190,16 +190,10 @@
 				</tr>
 			{/each}
 
-			{#if companies.length === 0}
+			{#if companies.length === 0 && !loading}
 				<tr>
 					<td colspan={totalCols} class="border-b border-[#e1e1e1] py-16 text-center text-sm text-black/25">
 						No companies found.
-					</td>
-				</tr>
-			{:else}
-				<tr>
-					<td colspan={totalCols} class="border-b border-[#e1e1e1] py-2 pl-3 text-[11px] text-black/20">
-						{companies.length} {companies.length === 1 ? 'record' : 'records'}
 					</td>
 				</tr>
 			{/if}
