@@ -1,7 +1,5 @@
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
-// ─── better-auth core tables ───────────────────────────────────────────────
-
 export const user = sqliteTable("user", {
   id: text("id").primaryKey(),
   name: text("name").notNull(),
@@ -52,8 +50,6 @@ export const verification = sqliteTable("verification", {
   updatedAt: integer("updated_at", { mode: "timestamp_ms" }),
 });
 
-// ─── App tables ────────────────────────────────────────────────────────────
-
 export const userRole = sqliteTable("user_role", {
   userId: text("user_id")
     .primaryKey()
@@ -77,6 +73,7 @@ export const companies = sqliteTable("companies", {
   companyType: text("company_type").notNull(),
   description: text("description").notNull(),
   companySize: text("company_size").notNull(),
+  country: text("country"),
   imageUrl: text("image_url"),
   imageOrigin: text("image_origin"),
   status: text("status", { enum: ["pending", "approved", "rejected"] })
@@ -87,25 +84,25 @@ export const companies = sqliteTable("companies", {
   updatedAt: integer("updated_at", { mode: "timestamp_ms" }).$defaultFn(() => new Date()),
 });
 
-export const amendments = sqliteTable('amendments', {
-	id: text('id')
-		.primaryKey()
-		.$defaultFn(() => crypto.randomUUID()),
-	companyId: text('company_id')
-		.notNull()
-		.references(() => companies.id, { onDelete: 'cascade' }),
-	submittedBy: text('submitted_by').references(() => user.id, { onDelete: 'set null' }),
-	// snapshot at time of submission
-	descriptionBefore: text('description_before').notNull(),
-	imageOriginBefore: text('image_origin_before'),
-	// proposed values (null = not changing that field)
-	descriptionAfter: text('description_after'),
-	imageOriginAfter: text('image_origin_after'),
-	status: text('status', { enum: ['pending', 'approved', 'rejected'] })
-		.notNull()
-		.default('pending'),
-	createdAt: integer('created_at', { mode: 'timestamp_ms' }).$defaultFn(() => new Date()),
-	updatedAt: integer('updated_at', { mode: 'timestamp_ms' }).$defaultFn(() => new Date()),
+export const amendments = sqliteTable("amendments", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  companyId: text("company_id")
+    .notNull()
+    .references(() => companies.id, { onDelete: "cascade" }),
+  submittedBy: text("submitted_by").references(() => user.id, { onDelete: "set null" }),
+  // snapshot at time of submission
+  descriptionBefore: text("description_before").notNull(),
+  imageOriginBefore: text("image_origin_before"),
+  // proposed values (null = not changing that field)
+  descriptionAfter: text("description_after"),
+  imageOriginAfter: text("image_origin_after"),
+  status: text("status", { enum: ["pending", "approved", "rejected"] })
+    .notNull()
+    .default("pending"),
+  createdAt: integer("created_at", { mode: "timestamp_ms" }).$defaultFn(() => new Date()),
+  updatedAt: integer("updated_at", { mode: "timestamp_ms" }).$defaultFn(() => new Date()),
 });
 
 export type Amendment = typeof amendments.$inferSelect;

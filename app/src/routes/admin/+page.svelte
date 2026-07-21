@@ -3,8 +3,8 @@
 	let { data }: { data: PageData } = $props();
 </script>
 
-	<a href="/" class="text-[12px] text-black/35 hover:text-black transition-colors mb-3 inline-block">← back</a>
-<h1 class="text-2xl mb-1">Admin</h1>
+	<a href="/" class="text-[12px] text-black/35 hover:text-black transition-colors mb-3">← back</a>
+	<h1 class="text-2xl mb-1">Admin</h1>
 	<p class="text-[13px] text-black/40 mb-8">Manage submissions, amendments, and users</p>
 
 	<div class="border border-[#e1e1e1] rounded overflow-hidden">

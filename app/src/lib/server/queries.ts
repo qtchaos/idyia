@@ -131,7 +131,7 @@ export async function searchCompaniesByName(q: string) {
       imageOrigin: companies.imageOrigin,
     })
     .from(companies)
-    .where(and(eq(companies.status, 'approved'), like(companies.name, `%${q}%`)))
+    .where(and(eq(companies.status, "approved"), like(companies.name, `%${q}%`)))
     .limit(6)
     .all();
 }
@@ -147,12 +147,12 @@ export async function getPendingAmendments() {
     .from(amendments)
     .innerJoin(companies, eq(amendments.companyId, companies.id))
     .leftJoin(user, eq(amendments.submittedBy, user.id))
-    .where(eq(amendments.status, 'pending'))
+    .where(eq(amendments.status, "pending"))
     .all();
 }
 
-export async function updateAmendmentStatus(id: string, status: 'approved' | 'rejected') {
-  if (status === 'approved') {
+export async function updateAmendmentStatus(id: string, status: "approved" | "rejected") {
+  if (status === "approved") {
     const row = await db.select().from(amendments).where(eq(amendments.id, id)).get();
     if (row) {
       const patch: Record<string, unknown> = { updatedAt: new Date() };
@@ -161,8 +161,5 @@ export async function updateAmendmentStatus(id: string, status: 'approved' | 're
       await db.update(companies).set(patch).where(eq(companies.id, row.companyId));
     }
   }
-  await db
-    .update(amendments)
-    .set({ status, updatedAt: new Date() })
-    .where(eq(amendments.id, id));
+  await db.update(amendments).set({ status, updatedAt: new Date() }).where(eq(amendments.id, id));
 }

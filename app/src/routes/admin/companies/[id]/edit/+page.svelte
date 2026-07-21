@@ -18,8 +18,8 @@
 	const fieldCls = 'flex flex-col gap-1.5';
 </script>
 
+	<a href="/admin/pending" class="text-[12px] text-black/35 hover:text-black transition-colors mb-1 block">← back</a>
 	<div class="flex items-baseline gap-4 mb-8">
-		<a href="/admin/pending" class="text-[12px] text-black/35 hover:text-black transition-colors mb-3 inline-block">← back</a>
 <h1 class="text-2xl">Edit entry</h1>
 		<span class="text-[13px] text-black/35 truncate max-w-xs">{c.name}</span>
 	</div>
@@ -47,6 +47,11 @@
 			<input id="website" name="website" type="url" required value={c.website} class={inputCls} />
 		</div>
 
+		<div class={fieldCls}>
+			<label for="country" class={labelCls}>Country</label>
+			<input id="country" name="country" value={c.country ?? ''} placeholder="United States" class={inputCls} />
+		</div>
+
 		<div class="grid grid-cols-2 gap-3">
 			<div class={fieldCls}>
 				<label for="companyType" class={labelCls}>Type</label>
@@ -62,7 +67,7 @@
 				<select id="companySize" name="companySize" required
 					class="h-9 px-3 text-[13px] border border-[#e1e1e1] rounded focus:outline-none focus:border-black/40 bg-white">
 					{#each companySizes as s}
-						<option value={s.code} selected={c.companySize === s.code}>{s.code} — {s.label}</option>
+						<option value={s.code} selected={c.companySize === s.code}>{s.code} - {s.label}</option>
 					{/each}
 				</select>
 			</div>

@@ -25,8 +25,8 @@
 	const currentSort = $derived(page.url.searchParams.get('sort') ?? 'created_at');
 	const currentDir  = $derived(page.url.searchParams.get('dir')  ?? 'desc');
 
-	// cols: # + Company + Registered + Website + Type + Description + Size + Source + [Status] + [Edit]
-	const totalCols = $derived(showStatus ? 10 : 8);
+	// cols: # + Company + Registered + Website + Type + Description + Size + Location + Source + [Status] + [Edit]
+	const totalCols = $derived(showStatus ? 11 : 9);
 
 	function toggleSort(col: string) {
 		const params = new URLSearchParams(page.url.searchParams);
@@ -91,7 +91,7 @@
 					</button>
 				</th>
 
-				<th class="{hcell}">
+				<th class="{hcell} w-4xl">
 					<span class="text-[11px] font-semibold text-black/50">Description</span>
 				</th>
 
@@ -99,6 +99,10 @@
 					<button onclick={() => toggleSort('company_size')} class="flex items-center gap-1 text-[11px] font-semibold text-black/50 hover:text-black transition-colors group">
 						Size <span class="{sortCls('company_size')} transition-colors">{sortBtn('company_size')}</span>
 					</button>
+				</th>
+
+				<th class="{hcell} w-36">
+					<span class="text-[11px] font-semibold text-black/50">Location</span>
 				</th>
 
 				<th class="{hcell} {showStatus ? '' : 'border-r-0'}">
@@ -139,7 +143,7 @@
 								<span class="block truncate text-black/60">{company.registeredName}</span>
 							{/if}
 						{:else}
-							<span class="text-black/15">—</span>
+							<span class="text-black/15">-</span>
 						{/if}
 					</td>
 
@@ -167,6 +171,15 @@
 						<SizeBadge code={company.companySize as any} />
 					</td>
 
+					<!-- Location -->
+					<td class="{cell} align-middle">
+						{#if company.country}
+							<span class="block truncate text-black/60">{company.country}</span>
+						{:else}
+							<span class="text-black/15">-</span>
+						{/if}
+					</td>
+
 					<!-- Source -->
 					<td class="{cell} align-middle {showStatus ? '' : 'border-r-0'}">
 						{#if company.imageOrigin}
@@ -174,7 +187,7 @@
 								class="block truncate text-black/50 underline underline-offset-2 hover:text-black transition-colors"
 							>{company.imageOrigin}</a>
 						{:else}
-							<span class="text-black/15">—</span>
+							<span class="text-black/15">-</span>
 						{/if}
 					</td>
 

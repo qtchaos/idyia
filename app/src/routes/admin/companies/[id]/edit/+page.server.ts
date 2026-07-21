@@ -29,6 +29,7 @@ export const actions: Actions = {
         companyType: data.get("companyType")?.toString().trim() ?? "",
         description: data.get("description")?.toString().trim() ?? "",
         companySize: data.get("companySize")?.toString().trim() ?? "",
+        country: data.get("country")?.toString().trim() || null,
         imageOrigin: data.get("imageOrigin")?.toString().trim() || null,
         status: (data.get("status")?.toString() ?? "pending") as
           | "pending"

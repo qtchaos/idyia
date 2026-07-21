@@ -56,14 +56,15 @@
 	const fieldCls = 'flex flex-col gap-1.5';
 </script>
 
-	<div class="flex items-center gap-4 mb-8">
-		<a href="/" class="text-[12px] text-black/35 hover:text-black transition-colors mb-3 inline-block">← back</a>
-<h1 class="text-2xl">{selected ? 'Amend entry' : 'Submit a company'}</h1>
+	<div class="mb-8">
+		<a href="/" class="text-[12px] text-black/35 hover:text-black transition-colors mb-3">← back</a>
+		<h1 class="text-2xl">{selected ? 'Amend entry' : 'Submit a company'}</h1>
+		<p class="text-[13px] text-black/40">{selected ? 'Edit a company entry to fix potential issues or to add more evidence' : 'Submitting a company for review will help us verify whether your claims are true, and help to give back to the community.'}</p>
 	</div>
 
 	{#if submitted}
 		<div class="mb-6 px-4 py-3 border border-[#e1e1e1] rounded bg-[#f7f8fa] text-[13px] text-black/60">
-			Submitted — your entry is pending moderation.
+			Submitted - your entry is pending moderation.
 		</div>
 	{/if}
 
@@ -71,7 +72,7 @@
 		<div class="mb-6 px-4 py-3 border border-red-200 bg-red-50 rounded text-[13px] text-red-700">{form.error}</div>
 	{/if}
 
-	<!-- Company name search — always visible -->
+	<!-- Company name search - always visible -->
 	<div class="{fieldCls} relative mb-6">
 		<label for="nameSearch" class={labelCls}>Company name</label>
 		<input id="nameSearch" type="text" autocomplete="off" value={nameQuery} oninput={onNameInput}
@@ -96,7 +97,6 @@
 		{/if}
 	</div>
 
-	<!-- ── AMEND ─────────────────────────────────────────────────────────── -->
 	{#if selected}
 		<div class="mb-6 flex items-center justify-between px-3 py-2.5 border border-[#e1e1e1] rounded bg-[#fafafa] text-[13px]">
 			<div class="min-w-0">
@@ -113,7 +113,7 @@
 			<div class={fieldCls}>
 				<label for="amendDesc" class={labelCls}>
 					Description
-					<span class="font-normal text-black/30 ml-1">— leave blank to keep current</span>
+					<span class="font-normal text-black/30 ml-1">- leave blank to keep current</span>
 				</label>
 				<div class="px-3 py-2.5 border border-[#e1e1e1] rounded bg-[#fafafa] text-[12px] text-black/45 leading-relaxed mb-1">
 					{selected.description}
@@ -126,7 +126,7 @@
 			<div class={fieldCls}>
 				<label for="amendSrc" class={labelCls}>
 					Source URL
-					<span class="font-normal text-black/30 ml-1">— leave blank to keep current</span>
+					<span class="font-normal text-black/30 ml-1">- leave blank to keep current</span>
 				</label>
 				{#if selected.imageOrigin}
 					<div class="px-3 py-2 border border-[#e1e1e1] rounded bg-[#fafafa] text-[12px] text-black/45 truncate mb-1">{selected.imageOrigin}</div>
@@ -140,7 +140,6 @@
 			</button>
 		</form>
 
-	<!-- ── CREATE ────────────────────────────────────────────────────────── -->
 	{:else}
 		<form method="POST" action="?/create" class="flex flex-col gap-5">
 			<input type="hidden" name="name" value={nameQuery} />
@@ -161,6 +160,11 @@
 				<input id="website" name="website" type="url" required placeholder="https://example.com" class={inputCls} />
 			</div>
 
+			<div class={fieldCls}>
+				<label for="country" class={labelCls}>Country</label>
+				<input id="country" name="country" placeholder="United States" class={inputCls} />
+			</div>
+
 			<div class="grid grid-cols-2 gap-3">
 				<div class={fieldCls}>
 					<label for="companyType" class={labelCls}>Type</label>
@@ -178,7 +182,7 @@
 						class="h-9 px-3 text-[13px] border border-[#e1e1e1] rounded focus:outline-none focus:border-black/40 bg-white">
 						<option value="">Select…</option>
 						{#each companySizes as s}
-							<option value={s.code}>{s.code} — {s.label}</option>
+							<option value={s.code}>{s.code} - {s.label}</option>
 						{/each}
 					</select>
 				</div>

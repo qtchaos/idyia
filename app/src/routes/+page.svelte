@@ -3,9 +3,18 @@
 	import CompanyTable from '$lib/components/CompanyTable.svelte';
 	import SearchBar from '$lib/components/SearchBar.svelte';
 	import Footer from '$lib/components/Footer.svelte';
+	import Logo from '$lib/components/Logo.svelte';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 	import { untrack } from 'svelte';
+	import { createAuthClient } from 'better-auth/client';
+
+	const authClient = createAuthClient();
+	async function logout() {
+		await authClient.signOut({
+			fetchOptions: { onSuccess: () => { window.location.href = '/'; } },
+		});
+	}
 
 	let { data }: { data: PageData } = $props();
 
@@ -33,7 +42,6 @@
 		goto(`?${params}`, { replaceState: true });
 	}
 
-	// ── Infinite scroll ────────────────────────────────────────────────────
 	let scrollEl: HTMLDivElement;
 	let sentinel: HTMLDivElement;
 
@@ -61,8 +69,10 @@
 	});
 </script>
 
-<!-- Toolbar -->
-<div class="h-9 shrink-0 flex items-center border-b border-[#e1e1e1] bg-white px-3 gap-3">
+<!-- Combined header + toolbar -->
+<div class="h-10 shrink-0 flex items-center border-b border-[#e1e1e1] bg-white px-4 gap-3">
+	<a href="/"><Logo /></a>
+	<div class="w-px h-4 bg-black/15"></div>
 	<SearchBar />
 
 	{#if activeType}
@@ -81,13 +91,17 @@
 	{/if}
 
 	{#if data.user}
-		<div class="w-px h-4 bg-black/10 ml-auto"></div>
-		<a href="/submit" class="h-6 px-3 text-[11px] bg-black text-white rounded hover:bg-black/75 transition-colors flex items-center">
-			+ submit
-		</a>
+		<div class="ml-auto flex items-center gap-3 text-sm">
+			{#if data.role === 'moderator' || data.role === 'admin'}
+				<a href="/admin" class="text-black/50 hover:text-black transition-colors">admin</a>
+			{/if}
+			<button onclick={logout} class="text-black/35 hover:text-black transition-colors">sign out</button>
+			<a href="/submit" class="h-6 px-3 text-[11px] bg-black text-white rounded hover:bg-black/75 transition-colors flex items-center">+ submit</a>
+		</div>
 	{:else}
-		<div class="ml-auto text-[11px] text-black/30">
-			<a href="/auth/login" class="hover:text-black underline">sign in to submit</a>
+		<div class="ml-auto flex items-center gap-3 text-sm">
+			<a href="/auth/register" class="text-black/50 hover:text-black transition-colors">register</a>
+			<a href="/auth/login" class="px-2.5 py-1 bg-black text-white rounded hover:bg-black/80 transition-colors">sign in</a>
 		</div>
 	{/if}
 </div>

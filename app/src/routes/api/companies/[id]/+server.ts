@@ -30,6 +30,7 @@ export const PATCH: RequestHandler = async ({ params, request, locals }) => {
     "companyType",
     "description",
     "companySize",
+    "country",
     "imageUrl",
     "imageOrigin",
   ];

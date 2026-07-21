@@ -26,6 +26,7 @@
 </svelte:head>
 
 <div class="flex flex-col" style="height:100dvh">
+	{#if !isHomepage}
 	<header class="flex items-center justify-between px-4 h-10 shrink-0 border-b border-[#e1e1e1] bg-white">
 		<a href="/"><Logo /></a>
 
@@ -46,17 +47,18 @@
 			{/if}
 		</div>
 	</header>
+	{/if}
 
 	<!-- Content -->
 	<div class="flex-1 flex flex-col overflow-auto">
 		{#if isHomepage}
 			{@render children()}
-			<Footer />
+			<Footer user={data.user} />
 		{:else}
 			<div class="w-full max-w-3xl mx-auto px-6 py-10 flex-1">
 				{@render children()}
 			</div>
-			<Footer />
+			<Footer user={data.user} />
 		{/if}
 	</div>
 </div>
