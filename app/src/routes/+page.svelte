@@ -10,11 +10,13 @@
 
 	let companies = $state<typeof data.companies>([]);
 	let hasMore   = $state(false);
-	let loading   = $state(false);
+	let loading   = $state(true);
 
+	// Sync when SvelteKit re-runs the server load (sort/filter navigation)
 	$effect(() => {
 		companies = data.companies;
 		hasMore   = data.hasMore;
+		loading   = false;
 	});
 
 	const activeType = $derived(page.url.searchParams.get('type'));
@@ -27,8 +29,8 @@
 	}
 
 	// ── Infinite scroll ────────────────────────────────────────────────────
-	let scrollEl:  HTMLDivElement;
-	let sentinel:  HTMLDivElement;
+	let scrollEl: HTMLDivElement;
+	let sentinel: HTMLDivElement;
 
 	async function loadMore() {
 		if (loading || !hasMore) return;
@@ -92,6 +94,5 @@
 		{loading}
 		showStatus={data.role === 'moderator' || data.role === 'admin'}
 	/>
-
 	<div bind:this={sentinel} class="h-px"></div>
 </div>
