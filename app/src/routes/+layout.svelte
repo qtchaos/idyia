@@ -51,10 +51,10 @@
 		{#if isHomepage}
 			{@render children()}
 		{:else}
-			<div class="w-full max-w-3xl mx-auto px-6 py-10 flex-1 flex flex-col">
+			<div class="w-full max-w-3xl mx-auto px-6 py-10 flex-1">
 				{@render children()}
-				<div class="mt-auto"><Footer /></div>
 			</div>
+			<Footer />
 		{/if}
 	</div>
 </div>

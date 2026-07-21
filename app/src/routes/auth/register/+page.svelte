@@ -16,7 +16,7 @@
 	}
 </script>
 
-<div class="flex-1 flex items-center justify-center">
+<div class="py-20 flex justify-center">
 	<div class="w-full max-w-sm">
 		<h1 class="text-2xl mb-1">Create account</h1>
 		<p class="text-[13px] text-black/40 mb-8">You'll start as a contributor — submissions go to review</p>
