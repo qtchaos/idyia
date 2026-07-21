@@ -15,6 +15,8 @@ export const GET: RequestHandler = async ({ url, locals }) => {
 		sort,
 		dir,
 		q,
+		type: url.searchParams.get('type') ?? undefined,
+		size: url.searchParams.get('size') ?? undefined,
 		userId: locals.user?.id,
 		userRole: (locals.role as Role) ?? undefined,
 	});

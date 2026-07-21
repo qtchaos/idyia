@@ -4,6 +4,7 @@
 	import SearchBar from '$lib/components/SearchBar.svelte';
 	import PageSizeSelector from '$lib/components/PageSizeSelector.svelte';
 	import { page } from '$app/state';
+	import { goto } from '$app/navigation';
 
 	let { data }: { data: PageData } = $props();
 
@@ -15,6 +16,15 @@
 		companies = data.companies;
 		hasMore = data.hasMore;
 	});
+
+	const activeType = $derived(page.url.searchParams.get('type'));
+	const activeSize = $derived(page.url.searchParams.get('size'));
+
+	function clearFilter(key: string) {
+		const params = new URLSearchParams(page.url.searchParams);
+		params.delete(key);
+		goto(`?${params}`, { replaceState: true });
+	}
 
 	async function loadMore() {
 		if (loading || !hasMore) return;
@@ -33,8 +43,31 @@
 	<SearchBar />
 	<div class="w-px h-4 bg-black/10"></div>
 	<PageSizeSelector />
-	{#if data.user}
+
+	{#if activeType}
 		<div class="w-px h-4 bg-black/10"></div>
+		<button
+			onclick={() => clearFilter('type')}
+			class="flex items-center gap-1 h-6 px-2 text-[11px] bg-blue-50 border border-blue-200 text-blue-700 rounded hover:bg-blue-100 transition-colors"
+		>
+			type: {activeType}
+			<span class="text-blue-400 ml-0.5">×</span>
+		</button>
+	{/if}
+
+	{#if activeSize}
+		<div class="w-px h-4 bg-black/10"></div>
+		<button
+			onclick={() => clearFilter('size')}
+			class="flex items-center gap-1 h-6 px-2 text-[11px] bg-blue-50 border border-blue-200 text-blue-700 rounded hover:bg-blue-100 transition-colors"
+		>
+			size: {activeSize}
+			<span class="text-blue-400 ml-0.5">×</span>
+		</button>
+	{/if}
+
+	{#if data.user}
+		<div class="w-px h-4 bg-black/10 ml-auto"></div>
 		<a href="/submit" class="h-6 px-3 text-[11px] bg-black text-white rounded hover:bg-black/75 transition-colors flex items-center">
 			+ submit
 		</a>
@@ -45,7 +78,7 @@
 	{/if}
 </div>
 
-<!-- Table: flex-1 so it fills remaining height; overflow-y-auto so only tbody area scrolls -->
+<!-- Table fills remaining height -->
 <div class="flex-1 overflow-auto">
 	<CompanyTable
 		{companies}

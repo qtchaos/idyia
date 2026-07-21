@@ -37,6 +37,8 @@ export interface CompanyQuery {
 	sort?: SortField;
 	dir?: SortDir;
 	q?: string;
+	type?: string;
+	size?: string;
 	userId?: string;
 	userRole?: Role;
 }
@@ -67,7 +69,10 @@ export async function queryCompanies(opts: CompanyQuery) {
 			)
 		: undefined;
 
-	const filters = [statusFilter, searchFilter].filter((f): f is SQL => f !== undefined);
+	const typeFilter  = opts.type ? eq(companies.companyType, opts.type) : undefined;
+	const sizeFilter  = opts.size ? eq(companies.companySize, opts.size) : undefined;
+
+	const filters = [statusFilter, searchFilter, typeFilter, sizeFilter].filter((f): f is SQL => f !== undefined);
 	const where = filters.length === 0 ? undefined : filters.length === 1 ? filters[0] : and(...filters);
 
 	const colMap = {
