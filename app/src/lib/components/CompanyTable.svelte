@@ -20,8 +20,6 @@
 
 	const currentSort = $derived(page.url.searchParams.get('sort') ?? 'created_at');
 	const currentDir  = $derived(page.url.searchParams.get('dir')  ?? 'desc');
-	const activeType  = $derived(page.url.searchParams.get('type') ?? null);
-	const activeSize  = $derived(page.url.searchParams.get('size') ?? null);
 
 	function toggleSort(col: string) {
 		const params = new URLSearchParams(page.url.searchParams);
@@ -168,9 +166,7 @@
 						class="{cell} align-middle cursor-pointer"
 						onclick={(e) => { e.stopPropagation(); toggleFilter('type', company.companyType); }}
 					>
-						<span class="transition-opacity {activeType && activeType !== company.companyType ? 'opacity-30' : ''}">
-							<TypeBadge type={company.companyType} />
-						</span>
+						<TypeBadge type={company.companyType} />
 					</td>
 
 					<!-- Description -->
@@ -183,9 +179,7 @@
 						class="{cell} align-middle cursor-pointer {showStatus ? '' : 'border-r-0'}"
 						onclick={(e) => { e.stopPropagation(); toggleFilter('size', company.companySize); }}
 					>
-						<span class="transition-opacity {activeSize && activeSize !== company.companySize ? 'opacity-30' : ''}">
-							<SizeBadge code={company.companySize as any} />
-						</span>
+						<SizeBadge code={company.companySize as any} />
 					</td>
 
 					{#if showStatus}
