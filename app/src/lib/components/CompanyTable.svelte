@@ -65,7 +65,7 @@
 		class="w-full text-[13px] border-separate border-spacing-0 border-l border-t border-[#e1e1e1]"
 		style="min-width: 1000px"
 	>
-		<thead>
+		<thead class="header-row">
 			<tr>
 				<th class="{hcell} w-10 bg-[#f9f9f9] border-b-2"></th>
 
@@ -200,66 +200,22 @@
 				</tr>
 			{/if}
 
-			<!-- Skeleton rows shown while loading more -->
-			{#if loading}
-				{#each { length: 8 } as _, i}
-					<tr class="skeleton-row" style="--i:{i}">
-						<td class="border-b border-r border-[#e1e1e1] h-8 w-10 bg-[#f9f9f9]"></td>
-						<td class="border-b border-r border-[#e1e1e1] h-8 px-3 align-middle">
-							<div class="skel" style="width:{40 + ((i * 23 + 7) % 35)}%"></div>
-						</td>
-						<td class="border-b border-r border-[#e1e1e1] h-8 px-3 align-middle">
-							<div class="skel" style="width:{30 + ((i * 17 + 3) % 30)}%"></div>
-						</td>
-						<td class="border-b border-r border-[#e1e1e1] h-8 px-3 align-middle">
-							<div class="skel" style="width:{35 + ((i * 11) % 25)}%"></div>
-						</td>
-						<td class="border-b border-r border-[#e1e1e1] h-8 px-3 align-middle">
-							<div class="skel" style="width:52px"></div>
-						</td>
-						<td class="border-b border-r border-[#e1e1e1] h-8 px-3 align-middle">
-							<div class="skel" style="width:{55 + ((i * 31 + 5) % 35)}%"></div>
-						</td>
-						<td class="border-b border-r border-[#e1e1e1] h-8 px-3 align-middle">
-							<div class="skel" style="width:44px"></div>
-						</td>
-						<td class="border-b {showStatus ? 'border-r border-[#e1e1e1]' : 'border-[#e1e1e1]'} h-8 px-3 align-middle">
-							<div class="skel" style="width:{30 + ((i * 19) % 40)}%"></div>
-						</td>
-						{#if showStatus}
-							<td class="border-b border-r border-[#e1e1e1] h-8 px-3 align-middle">
-								<div class="skel" style="width:48px"></div>
-							</td>
-							<td class="border-b border-[#e1e1e1] h-8 w-14"></td>
-						{/if}
-					</tr>
-				{/each}
-			{/if}
 		</tbody>
 	</table>
 </div>
 
 <style>
+	.header-row {
+		animation: row-in 0.3s ease-out both;
+	}
+
 	.data-row {
 		animation: row-in 0.25s ease-out both;
 		animation-delay: var(--delay, 0ms);
 	}
 
 	@keyframes row-in {
-		from { opacity: 0; transform: translateY(6px); }
+		from { opacity: 0; transform: translateY(4px); }
 		to   { opacity: 1; transform: translateY(0); }
-	}
-
-	.skel {
-		height: 9px;
-		border-radius: 3px;
-		background: #e8e8e8;
-		animation: shimmer 1.6s ease-in-out infinite;
-		animation-delay: calc(var(--i, 0) * 60ms);
-	}
-
-	@keyframes shimmer {
-		0%, 100% { opacity: 0.35; }
-		50%       { opacity: 0.85; }
 	}
 </style>
