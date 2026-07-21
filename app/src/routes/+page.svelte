@@ -11,9 +11,11 @@
 	let companies = $state<typeof data.companies>([]);
 	let hasMore   = $state(false);
 	let loading   = $state(true);
+	let animateFrom = $state(0);
 
 	// Sync when SvelteKit re-runs the server load (sort/filter navigation)
 	$effect(() => {
+		animateFrom = 0;
 		companies = data.companies;
 		hasMore   = data.hasMore;
 		loading   = false;
@@ -34,6 +36,7 @@
 
 	async function loadMore() {
 		if (loading || !hasMore) return;
+		animateFrom = companies.length;
 		loading = true;
 		const params = new URLSearchParams(page.url.searchParams);
 		params.set('offset', String(companies.length));
@@ -92,6 +95,7 @@
 		{companies}
 		{hasMore}
 		{loading}
+		{animateFrom}
 		showStatus={data.role === 'moderator' || data.role === 'admin'}
 	/>
 	<div bind:this={sentinel} class="h-px"></div>

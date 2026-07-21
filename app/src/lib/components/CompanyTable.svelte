@@ -11,11 +11,13 @@
 		hasMore,
 		loading = false,
 		showStatus = false,
+		animateFrom = 0,
 	}: {
 		companies: Company[];
 		hasMore: boolean;
 		loading?: boolean;
 		showStatus?: boolean;
+		animateFrom?: number;
 	} = $props();
 
 	const currentSort = $derived(page.url.searchParams.get('sort') ?? 'created_at');
@@ -112,7 +114,7 @@
 
 		<tbody>
 			{#each companies as company, i (company.id)}
-				<tr class="hover:bg-[#f7f8fa]">
+				<tr class="data-row hover:bg-[#f7f8fa]" style="--delay:{Math.max(0, i - animateFrom) * 35}ms">
 					<!-- # -->
 					<td class="border-b border-r border-[#e1e1e1] h-8 w-10 text-right pr-2 text-[11px] text-black/25 align-middle bg-[#f9f9f9] select-none">
 						{i + 1}
@@ -238,6 +240,16 @@
 </div>
 
 <style>
+	.data-row {
+		animation: row-in 0.25s ease-out both;
+		animation-delay: var(--delay, 0ms);
+	}
+
+	@keyframes row-in {
+		from { opacity: 0; transform: translateY(6px); }
+		to   { opacity: 1; transform: translateY(0); }
+	}
+
 	.skel {
 		height: 9px;
 		border-radius: 3px;
