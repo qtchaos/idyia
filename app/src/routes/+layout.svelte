@@ -21,10 +21,10 @@
 
 <div class="flex flex-col" style="height:100dvh">
 	<!-- Slim top bar -->
-	<header class="flex items-center justify-between px-4 h-9 shrink-0 border-b border-[#e1e1e1] bg-white">
-		<a href="/" class="text-sm tracking-tight leading-none" style="font-family:'Avara',sans-serif; font-weight:900;">idyia</a>
+	<header class="flex items-center justify-between px-4 h-9 shrink-0 border-b border-[#e1e1e1] bg-white pt-1">
+		<a href="/" class="text-2xl tracking-tight leading-none font-vg">idyia</a>
 
-		<div class="flex items-center gap-3 text-xs">
+		<div class="flex items-center gap-3 text-sm">
 			{#if data.user}
 				{#if data.role === 'moderator' || data.role === 'admin'}
 					<a href="/admin" class="text-black/50 hover:text-black transition-colors">admin</a>

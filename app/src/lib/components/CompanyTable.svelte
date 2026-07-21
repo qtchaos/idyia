@@ -21,8 +21,8 @@
 	const currentSort = $derived(page.url.searchParams.get('sort') ?? 'created_at');
 	const currentDir  = $derived(page.url.searchParams.get('dir')  ?? 'desc');
 
-	// cols: # + Company + Registered + Website + Type + Description + Size + Source + [Status]
-	const totalCols = $derived(showStatus ? 9 : 8);
+	// cols: # + Company + Registered + Website + Type + Description + Size + Source + [Status] + [Edit]
+	const totalCols = $derived(showStatus ? 10 : 8);
 
 	function toggleSort(col: string) {
 		const params = new URLSearchParams(page.url.searchParams);
@@ -102,9 +102,10 @@
 				</th>
 
 				{#if showStatus}
-				<th class="{hcell} w-28 border-r-0">
+				<th class="{hcell} w-28">
 					<span class="text-[11px] font-semibold text-black/50">Status</span>
 				</th>
+				<th class="{hcell} w-14 border-r-0"></th>
 				{/if}
 			</tr>
 		</thead>
@@ -174,8 +175,16 @@
 
 					{#if showStatus}
 					<!-- Status -->
-					<td class="{cell} align-middle border-r-0">
+					<td class="{cell} align-middle">
 						<StatusBadge status={company.status} />
+					</td>
+					<!-- Edit -->
+					<td class="{cell} align-middle border-r-0 text-center">
+						<a
+							href="/admin/companies/{company.id}/edit"
+							class="text-[11px] text-black/40 hover:text-black transition-colors"
+							title="Edit"
+						>✎</a>
 					</td>
 					{/if}
 				</tr>

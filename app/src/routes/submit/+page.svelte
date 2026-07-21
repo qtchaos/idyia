@@ -6,13 +6,13 @@
 
 	const companySizes = [
 		{ code: 'A', label: 'Self-employed' },
-		{ code: 'B', label: '1–10 employees' },
-		{ code: 'C', label: '11–50 employees' },
-		{ code: 'D', label: '51–200 employees' },
-		{ code: 'E', label: '201–500 employees' },
-		{ code: 'F', label: '501–1,000 employees' },
-		{ code: 'G', label: '1,001–5,000 employees' },
-		{ code: 'H', label: '5,001–10,000 employees' },
+		{ code: 'B', label: '1-10 employees' },
+		{ code: 'C', label: '11-50 employees' },
+		{ code: 'D', label: '51-200 employees' },
+		{ code: 'E', label: '201-500 employees' },
+		{ code: 'F', label: '501-1,000 employees' },
+		{ code: 'G', label: '1,001-5,000 employees' },
+		{ code: 'H', label: '5,001-10,000 employees' },
 		{ code: 'I', label: '10,001+ employees' },
 	];
 
@@ -27,7 +27,7 @@
 <main class="max-w-xl mx-auto px-4 sm:px-6 py-8">
 	<div class="flex items-center gap-3 mb-6">
 		<a href="/" class="text-sm text-black/40 hover:text-black transition-colors">← Back</a>
-		<h1 class="text-xl font-semibold">Submit a company</h1>
+		<h1 class="text-xl">Submit a company</h1>
 	</div>
 
 	{#if submitted}
