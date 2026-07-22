@@ -16,6 +16,7 @@ export const GET: RequestHandler = async ({ url, locals }) => {
     q: q.q,
     type: q.type,
     size: q.size,
+    country: q.country,
     userId: locals.user?.id,
     userRole: (locals.role as Role) ?? undefined,
   });

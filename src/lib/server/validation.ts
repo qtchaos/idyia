@@ -6,6 +6,7 @@ import { error } from "@sveltejs/kit";
 
 export const CompanyTypeSchema = Type.Union([
   Type.Literal("restaurant"),
+  Type.Literal("food"),
   Type.Literal("saas"),
   Type.Literal("government"),
   Type.Literal("institution"),
@@ -56,6 +57,7 @@ export const CompaniesQuerySchema = Type.Object({
   q: Type.Optional(Type.String({ maxLength: 200 })),
   type: Type.Optional(Type.String({ maxLength: 50 })),
   size: Type.Optional(Type.String({ maxLength: 10 })),
+  country: Type.Optional(Type.String({ maxLength: 100 })),
 });
 
 export const SearchQuerySchema = Type.Object({

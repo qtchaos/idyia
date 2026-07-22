@@ -1,8 +1,4 @@
-import {
-  DISCORD_CLIENT_ID,
-  DISCORD_CLIENT_SECRET,
-  TURNSTILE_SECRET_KEY,
-} from "$env/static/private";
+import { env } from "$env/dynamic/private";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { captcha } from "better-auth/plugins";
@@ -24,12 +20,12 @@ export const auth = betterAuth({
   },
   socialProviders: {
     discord: {
-      clientId: DISCORD_CLIENT_ID,
-      clientSecret: DISCORD_CLIENT_SECRET,
+      clientId: env.DISCORD_CLIENT_ID ?? "",
+      clientSecret: env.DISCORD_CLIENT_SECRET ?? "",
     },
   },
-  plugins: TURNSTILE_SECRET_KEY
-    ? [captcha({ provider: "cloudflare-turnstile", secretKey: TURNSTILE_SECRET_KEY })]
+  plugins: env.TURNSTILE_SECRET_KEY
+    ? [captcha({ provider: "cloudflare-turnstile", secretKey: env.TURNSTILE_SECRET_KEY })]
     : [],
   trustedOrigins: ["http://localhost:5173", "https://localhost:5174"],
 });

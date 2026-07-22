@@ -10,8 +10,25 @@ import {
 } from "$lib/server/validation";
 import type { Actions, PageServerLoad } from "./$types";
 
-export const load: PageServerLoad = async ({ locals }) => {
+export const load: PageServerLoad = async ({ locals, url }) => {
   if (!locals.user) redirect(302, "/auth/login");
+
+  const companyId = url.searchParams.get("company");
+  if (companyId) {
+    const preselected = await db
+      .select({
+        id: companies.id,
+        name: companies.name,
+        website: companies.website,
+        description: companies.description,
+        imageOrigin: companies.imageOrigin,
+      })
+      .from(companies)
+      .where(eq(companies.id, companyId))
+      .get();
+    if (preselected) return { preselected };
+  }
+
   return {};
 };
 

@@ -6,10 +6,10 @@
 
 	type SearchResult = { id: string; name: string; website: string; description: string; imageOrigin: string | null };
 
-	let nameQuery     = $state('');
+	let nameQuery     = $state(data.preselected?.name ?? '');
 	let searchResults = $state<SearchResult[]>([]);
 	let showDropdown  = $state(false);
-	let selected      = $state<SearchResult | null>(null);
+	let selected      = $state<SearchResult | null>(data.preselected ?? null);
 	let searchTimer: ReturnType<typeof setTimeout>;
 
 	function onNameInput(e: Event) {
@@ -25,8 +25,8 @@
 		}, 300);
 	}
 
-	let amendDescription = $state('');
-	let amendSource      = $state('');
+	let amendDescription = $state(data.preselected?.description ?? '');
+	let amendSource      = $state(data.preselected?.imageOrigin ?? '');
 
 	function pick(company: SearchResult) {
 		selected          = company;
@@ -47,7 +47,7 @@
 		{ code: 'G', label: '1,001–5,000' },    { code: 'H', label: '5,001–10,000' },
 		{ code: 'I', label: '10,001+' },
 	];
-	const companyTypes = ['restaurant','saas','government','institution','retail','finance','healthcare','media','education','other'];
+	const companyTypes = ['restaurant','food','saas','government','institution','retail','finance','healthcare','media','education','other'];
 
 	const submitted = $derived(page.url.searchParams.get('submitted') === '1');
 

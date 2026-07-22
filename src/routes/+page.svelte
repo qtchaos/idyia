@@ -4,6 +4,7 @@
 	import SearchBar from '$lib/components/SearchBar.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import Logo from '$lib/components/Logo.svelte';
+	import KarmaBadge from '$lib/components/KarmaBadge.svelte';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 	import { untrack } from 'svelte';
@@ -33,8 +34,9 @@
 		loading     = false;
 	});
 
-	const activeType = $derived(page.url.searchParams.get('type'));
-	const activeSize = $derived(page.url.searchParams.get('size'));
+	const activeType    = $derived(page.url.searchParams.get('type'));
+	const activeSize    = $derived(page.url.searchParams.get('size'));
+	const activeCountry = $derived(page.url.searchParams.get('country'));
 
 	function clearFilter(key: string) {
 		const params = new URLSearchParams(page.url.searchParams);
@@ -89,17 +91,27 @@
 			size: {activeSize} <span class="text-blue-400 ml-0.5">×</span>
 		</button>
 	{/if}
+	{#if activeCountry}
+		<div class="w-px h-4 bg-black/10"></div>
+		<button onclick={() => clearFilter('country')}
+			class="flex items-center gap-1 h-6 px-2 text-[11px] bg-blue-50 border border-blue-200 text-blue-700 rounded hover:bg-blue-100 transition-colors">
+			country: {activeCountry} <span class="text-blue-400 ml-0.5">×</span>
+		</button>
+	{/if}
 
 	{#if data.user}
 		<div class="ml-auto flex items-center gap-3 text-sm">
 			{#if data.role === 'moderator' || data.role === 'admin'}
 				<a href="/admin" class="text-black/50 hover:text-black transition-colors">admin</a>
 			{/if}
+			<a href="/leaderboard" class="text-black/50 hover:text-black transition-colors">leaderboard</a>
 			<button onclick={logout} class="text-black/35 hover:text-black transition-colors">sign out</button>
 			<a href="/submit" class="h-6 px-3 text-[11px] bg-black text-white rounded hover:bg-black/75 transition-colors flex items-center">+ submit</a>
+			<KarmaBadge karma={data.karma} />
 		</div>
 	{:else}
 		<div class="ml-auto flex items-center gap-3 text-sm">
+			<a href="/leaderboard" class="text-black/50 hover:text-black transition-colors">leaderboard</a>
 			<a href="/auth/register" class="text-black/50 hover:text-black transition-colors">register</a>
 			<a href="/auth/login" class="px-2.5 py-1 bg-black text-white rounded hover:bg-black/80 transition-colors">sign in</a>
 		</div>

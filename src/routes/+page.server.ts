@@ -15,6 +15,7 @@ export const load: PageServerLoad = async ({ url, locals }) => {
     q,
     type: url.searchParams.get("type") ?? undefined,
     size: url.searchParams.get("size") ?? undefined,
+    country: url.searchParams.get("country") ?? undefined,
     userId: locals.user?.id,
     userRole: (locals.role as Role) ?? undefined,
   });

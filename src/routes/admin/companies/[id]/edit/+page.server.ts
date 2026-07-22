@@ -6,13 +6,10 @@ import {
   validate,
   fromFormData,
   CompanyCreateSchema,
-  CompanySizeSchema,
-  CompanyTypeSchema,
 } from "$lib/server/validation";
 import { Type } from "@sinclair/typebox";
 import type { PageServerLoad, Actions } from "./$types";
 
-// Admin edit allows all statuses plus the same fields as create
 const AdminEditSchema = Type.Object({
   ...CompanyCreateSchema.properties,
   status: Type.Union([Type.Literal("pending"), Type.Literal("approved"), Type.Literal("rejected")]),
@@ -32,7 +29,7 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 };
 
 export const actions: Actions = {
-  default: async ({ params, request, locals }) => {
+  update: async ({ params, request, locals }) => {
     if (locals.role !== "moderator" && locals.role !== "admin") throw error(403, "Forbidden");
 
     const fields = validate(AdminEditSchema, fromFormData(await request.formData()));
@@ -54,6 +51,12 @@ export const actions: Actions = {
       })
       .where(eq(companies.id, params.id));
 
+    redirect(302, "/admin/pending");
+  },
+
+  delete: async ({ params, locals }) => {
+    if (locals.role !== "moderator" && locals.role !== "admin") throw error(403, "Forbidden");
+    await db.delete(companies).where(eq(companies.id, params.id));
     redirect(302, "/admin/pending");
   },
 };

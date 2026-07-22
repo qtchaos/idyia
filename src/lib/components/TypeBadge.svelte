@@ -1,6 +1,7 @@
 <script lang="ts">
 	const palette: Record<string, string> = {
 		restaurant:  'bg-amber-100  text-amber-800',
+		food:        'bg-lime-100   text-lime-800',
 		saas:        'bg-blue-100   text-blue-800',
 		government:  'bg-teal-100   text-teal-800',
 		institution: 'bg-purple-100 text-purple-800',

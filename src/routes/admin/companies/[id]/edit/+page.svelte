@@ -11,7 +11,7 @@
 		{ code: 'G', label: '1,001–5,000' },    { code: 'H', label: '5,001–10,000' },
 		{ code: 'I', label: '10,001+' },
 	];
-	const companyTypes = ['restaurant','saas','government','institution','retail','finance','healthcare','media','education','other'];
+	const companyTypes = ['restaurant','food','saas','government','institution','retail','finance','healthcare','media','education','other'];
 
 	const inputCls = 'h-9 px-3 text-[13px] border border-[#e1e1e1] rounded focus:outline-none focus:border-black/40 bg-white w-full';
 	const labelCls = 'text-[12px] font-medium text-black/50';
@@ -24,7 +24,7 @@
 		<span class="text-[13px] text-black/35 truncate max-w-xs">{c.name}</span>
 	</div>
 
-	<form method="POST" class="flex flex-col gap-5">
+	<form method="POST" action="?/update" class="flex flex-col gap-5">
 
 		<div class={fieldCls}>
 			<label for="name" class={labelCls}>Company name</label>
@@ -106,3 +106,14 @@
 			</a>
 		</div>
 	</form>
+
+	<div class="mt-8 pt-6 border-t border-[#e1e1e1]">
+		<p class="text-[12px] text-black/35 mb-3">Danger zone</p>
+		<form method="POST" action="?/delete"
+			onsubmit={(e) => { if (!confirm('Permanently delete "' + c.name + '"? This cannot be undone.')) e.preventDefault(); }}>
+			<button type="submit"
+				class="h-9 px-4 text-[13px] text-red-600 border border-red-200 rounded hover:bg-red-50 transition-colors">
+				Delete entry
+			</button>
+		</form>
+	</div>

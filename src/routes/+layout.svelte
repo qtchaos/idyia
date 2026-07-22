@@ -4,6 +4,7 @@
 	import type { LayoutData } from './$types';
 	import { createAuthClient } from 'better-auth/client';
 	import Logo from '$lib/components/Logo.svelte';
+	import KarmaBadge from '$lib/components/KarmaBadge.svelte';
 	import { page } from '$app/state';
 	import Footer from '$lib/components/Footer.svelte';
 
@@ -39,9 +40,12 @@
 				{#if !isHomepage}
 					<a href="/" class="text-black/50 hover:text-black transition-colors">home</a>
 				{/if}
-				<a href="/submit" class="text-black/50 hover:text-black transition-colors">submit</a>
+				<a href="/leaderboard" class="text-black/50 hover:text-black transition-colors">leaderboard</a>
 				<button onclick={logout} class="text-black/35 hover:text-black transition-colors">sign out</button>
+				<a href="/submit" class="h-6 px-3 text-[11px] bg-black text-white rounded hover:bg-black/75 transition-colors flex items-center">+ submit</a>
+				<KarmaBadge karma={data.karma} />
 			{:else}
+				<a href="/leaderboard" class="text-black/50 hover:text-black transition-colors">leaderboard</a>
 				<a href="/auth/register" class="text-black/50 hover:text-black transition-colors">register</a>
 				<a href="/auth/login" class="px-2.5 py-1 bg-black text-white rounded hover:bg-black/80 transition-colors">sign in</a>
 			{/if}

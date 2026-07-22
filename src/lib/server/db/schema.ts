@@ -105,6 +105,65 @@ export const amendments = sqliteTable("amendments", {
   updatedAt: integer("updated_at", { mode: "timestamp_ms" }).$defaultFn(() => new Date()),
 });
 
+export const alternatives = sqliteTable("alternatives", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  companyId: text("company_id")
+    .notNull()
+    .references(() => companies.id, { onDelete: "cascade" }),
+  url: text("url").notNull(),
+  name: text("name"),
+  submittedBy: text("submitted_by").references(() => user.id, { onDelete: "set null" }),
+  status: text("status", { enum: ["pending", "approved", "rejected"] })
+    .notNull()
+    .default("pending"),
+  createdAt: integer("created_at", { mode: "timestamp_ms" }).$defaultFn(() => new Date()),
+});
+
+export const alternativeSuggestions = sqliteTable("alternative_suggestions", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  alternativeId: text("alternative_id")
+    .notNull()
+    .references(() => alternatives.id, { onDelete: "cascade" }),
+  submittedBy: text("submitted_by").references(() => user.id, { onDelete: "set null" }),
+  type: text("type", { enum: ["edit", "remove"] }).notNull(),
+  note: text("note").notNull(),
+  urlAfter: text("url_after"),
+  nameAfter: text("name_after"),
+  status: text("status", { enum: ["pending", "approved", "rejected"] })
+    .notNull()
+    .default("pending"),
+  createdAt: integer("created_at", { mode: "timestamp_ms" }).$defaultFn(() => new Date()),
+});
+
+export const karmaTransactions = sqliteTable("karma_transactions", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  userId: text("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  amount: integer("amount").notNull(),
+  reason: text("reason", {
+    enum: ["company_approved", "company_rejected", "alternative_approved", "alternative_rejected", "alt_suggestion_rejected", "admin_adjustment"],
+  }).notNull(),
+  referenceId: text("reference_id"),
+  note: text("note"),
+  createdAt: integer("created_at", { mode: "timestamp_ms" }).$defaultFn(() => new Date()),
+});
+
+export const userKarma = sqliteTable("user_karma", {
+  userId: text("user_id")
+    .primaryKey()
+    .references(() => user.id, { onDelete: "cascade" }),
+  total: integer("total").notNull().default(0),
+});
+
+export type Alternative = typeof alternatives.$inferSelect;
+export type AlternativeSuggestion = typeof alternativeSuggestions.$inferSelect;
 export type Amendment = typeof amendments.$inferSelect;
 
 // Types
@@ -112,6 +171,9 @@ export type Company = typeof companies.$inferSelect;
 export type NewCompany = typeof companies.$inferInsert;
 export type User = typeof user.$inferSelect;
 export type UserRole = typeof userRole.$inferSelect;
+export type KarmaTransaction = typeof karmaTransactions.$inferSelect;
+export type UserKarma = typeof userKarma.$inferSelect;
+export type KarmaReason = KarmaTransaction["reason"];
 export type CompanyStatus = "pending" | "approved" | "rejected";
 export type Role = "contributor" | "trusted_contributor" | "moderator" | "admin";
 export type CompanySizeCode = "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I";
