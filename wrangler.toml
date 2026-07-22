@@ -8,3 +8,4 @@ compatibility_flags = ["nodejs_compat"]
 [vars]
 DATABASE_URL="libsql://idyia-qtchaos.aws-eu-west-1.turso.io"
 PUBLIC_TURNSTILE_SITE_KEY="0x4AAAAAAD7awG0A6qQlV6uN"
+DISCORD_CLIENT_ID="1529415090485329992"
