@@ -2,7 +2,13 @@ import { error, redirect } from "@sveltejs/kit";
 import { db } from "$lib/server/db/index";
 import { companies } from "$lib/server/db/schema";
 import { eq } from "drizzle-orm";
-import { validate, fromFormData, CompanyCreateSchema, CompanySizeSchema, CompanyTypeSchema } from "$lib/server/validation";
+import {
+  validate,
+  fromFormData,
+  CompanyCreateSchema,
+  CompanySizeSchema,
+  CompanyTypeSchema,
+} from "$lib/server/validation";
 import { Type } from "@sinclair/typebox";
 import type { PageServerLoad, Actions } from "./$types";
 

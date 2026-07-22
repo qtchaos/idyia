@@ -52,9 +52,7 @@ export const CompaniesQuerySchema = Type.Object({
       { default: "created_at" },
     ),
   ),
-  dir: Type.Optional(
-    Type.Union([Type.Literal("asc"), Type.Literal("desc")], { default: "desc" }),
-  ),
+  dir: Type.Optional(Type.Union([Type.Literal("asc"), Type.Literal("desc")], { default: "desc" })),
   q: Type.Optional(Type.String({ maxLength: 200 })),
   type: Type.Optional(Type.String({ maxLength: 50 })),
   size: Type.Optional(Type.String({ maxLength: 10 })),

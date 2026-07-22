@@ -1,4 +1,8 @@
-import { DISCORD_CLIENT_ID, DISCORD_CLIENT_SECRET, TURNSTILE_SECRET_KEY } from "$env/static/private";
+import {
+  DISCORD_CLIENT_ID,
+  DISCORD_CLIENT_SECRET,
+  TURNSTILE_SECRET_KEY,
+} from "$env/static/private";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { captcha } from "better-auth/plugins";

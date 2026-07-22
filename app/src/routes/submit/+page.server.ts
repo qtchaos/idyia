@@ -2,7 +2,12 @@ import { fail, redirect } from "@sveltejs/kit";
 import { db } from "$lib/server/db/index";
 import { companies, amendments } from "$lib/server/db/schema";
 import { eq, and, like } from "drizzle-orm";
-import { validateForm, fromFormData, CompanyCreateSchema, CompanyAmendSchema } from "$lib/server/validation";
+import {
+  validateForm,
+  fromFormData,
+  CompanyCreateSchema,
+  CompanyAmendSchema,
+} from "$lib/server/validation";
 import type { Actions, PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async ({ locals }) => {
@@ -31,7 +36,9 @@ export const actions: Actions = {
       )
       .get();
     if (dup)
-      return fail(409, { error: "You already have a pending submission for a company with this name." });
+      return fail(409, {
+        error: "You already have a pending submission for a company with this name.",
+      });
 
     const isTrusted = locals.role === "trusted_contributor" || locals.role === "admin";
 
@@ -61,7 +68,11 @@ export const actions: Actions = {
     if (!result.ok) return fail(400, { error: result.error });
     const fields = result.value;
 
-    const company = await db.select().from(companies).where(eq(companies.id, fields.companyId)).get();
+    const company = await db
+      .select()
+      .from(companies)
+      .where(eq(companies.id, fields.companyId))
+      .get();
     if (!company) return fail(404, { error: "Company not found" });
 
     const isTrusted = locals.role === "trusted_contributor" || locals.role === "admin";
@@ -95,8 +106,7 @@ export const actions: Actions = {
         ),
       )
       .get();
-    if (dup)
-      return fail(409, { error: "You already have a pending amendment for this company." });
+    if (dup) return fail(409, { error: "You already have a pending amendment for this company." });
 
     await db.insert(amendments).values({
       companyId: fields.companyId,
