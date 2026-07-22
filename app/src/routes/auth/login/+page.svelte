@@ -1,17 +1,35 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { createAuthClient } from 'better-auth/client';
-	import { goto } from '$app/navigation';
+	import { PUBLIC_TURNSTILE_SITE_KEY } from '$env/static/public';
 
 	const client = createAuthClient();
 
-	let email    = $state('');
+	let email = $state('');
 	let password = $state('');
-	let err      = $state('');
-	let loading  = $state(false);
+	let err = $state('');
+	let loading = $state(false);
+	let turnstileToken = $state('');
+
+	// Button is enabled immediately when Turnstile is not configured (dev mode),
+	// or once the widget verifies the user.
+	const canSubmit = $derived(!PUBLIC_TURNSTILE_SITE_KEY || !!turnstileToken);
+
+	onMount(() => {
+		(window as any).__tsCallback = (t: string) => { turnstileToken = t; };
+		(window as any).__tsExpired = () => { turnstileToken = ''; };
+	});
 
 	async function login() {
 		loading = true; err = '';
-		const { error } = await client.signIn.email({ email, password, callbackURL: '/' });
+		const { error } = await client.signIn.email({
+			email,
+			password,
+			callbackURL: '/',
+			fetchOptions: PUBLIC_TURNSTILE_SITE_KEY
+				? { headers: { 'x-captcha-response': turnstileToken } }
+				: undefined,
+		});
 		if (error) { err = error.message ?? 'Login failed'; loading = false; }
 	}
 
@@ -19,6 +37,10 @@
 		await client.signIn.social({ provider: 'discord', callbackURL: '/' });
 	}
 </script>
+
+<svelte:head>
+	<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+</svelte:head>
 
 <div class="py-20 flex justify-center">
 	<div class="w-full max-w-sm">
@@ -40,9 +62,19 @@
 				<input id="password" type="password" bind:value={password} required autocomplete="current-password"
 					class="h-9 px-3 text-[13px] border border-[#e1e1e1] rounded focus:outline-none focus:border-black/40 bg-white" />
 			</div>
-			<button type="submit" disabled={loading}
+
+			{#if PUBLIC_TURNSTILE_SITE_KEY}
+				<div class="cf-turnstile"
+					data-sitekey={PUBLIC_TURNSTILE_SITE_KEY}
+					data-theme="light"
+					data-callback="__tsCallback"
+					data-expired-callback="__tsExpired">
+				</div>
+			{/if}
+
+			<button type="submit" disabled={loading || !canSubmit}
 				class="mt-1 h-9 bg-black text-white text-[13px] rounded hover:bg-black/80 disabled:opacity-40 transition-colors">
-				{loading ? 'Signing in…' : 'Sign in'}
+				{loading ? 'Signing in…' : !canSubmit ? 'Verifying…' : 'Sign in'}
 			</button>
 		</form>
 
@@ -64,5 +96,4 @@
 			No account? <a href="/auth/register" class="text-black hover:underline">Register</a>
 		</p>
 	</div>
-
 </div>

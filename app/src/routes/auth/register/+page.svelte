@@ -1,20 +1,42 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { createAuthClient } from 'better-auth/client';
+	import { PUBLIC_TURNSTILE_SITE_KEY } from '$env/static/public';
 
 	const client = createAuthClient();
 
-	let name     = $state('');
-	let email    = $state('');
+	let name = $state('');
+	let email = $state('');
 	let password = $state('');
-	let err      = $state('');
-	let loading  = $state(false);
+	let err = $state('');
+	let loading = $state(false);
+	let turnstileToken = $state('');
+
+	const canSubmit = $derived(!PUBLIC_TURNSTILE_SITE_KEY || !!turnstileToken);
+
+	onMount(() => {
+		(window as any).__tsCallback = (t: string) => { turnstileToken = t; };
+		(window as any).__tsExpired = () => { turnstileToken = ''; };
+	});
 
 	async function register() {
 		loading = true; err = '';
-		const { error } = await client.signUp.email({ name, email, password, callbackURL: '/' });
+		const { error } = await client.signUp.email({
+			name,
+			email,
+			password,
+			callbackURL: '/',
+			fetchOptions: PUBLIC_TURNSTILE_SITE_KEY
+				? { headers: { 'x-captcha-response': turnstileToken } }
+				: undefined,
+		});
 		if (error) { err = error.message ?? 'Registration failed'; loading = false; }
 	}
 </script>
+
+<svelte:head>
+	<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+</svelte:head>
 
 <div class="py-20 flex justify-center">
 	<div class="w-full max-w-sm">
@@ -42,9 +64,19 @@
 					class="h-9 px-3 text-[13px] border border-[#e1e1e1] rounded focus:outline-none focus:border-black/40 bg-white" />
 				<span class="text-[11px] text-black/30">Minimum 8 characters</span>
 			</div>
-			<button type="submit" disabled={loading}
+
+			{#if PUBLIC_TURNSTILE_SITE_KEY}
+				<div class="cf-turnstile"
+					data-sitekey={PUBLIC_TURNSTILE_SITE_KEY}
+					data-theme="light"
+					data-callback="__tsCallback"
+					data-expired-callback="__tsExpired">
+				</div>
+			{/if}
+
+			<button type="submit" disabled={loading || !canSubmit}
 				class="mt-1 h-9 bg-black text-white text-[13px] rounded hover:bg-black/80 disabled:opacity-40 transition-colors">
-				{loading ? 'Creating account…' : 'Create account'}
+				{loading ? 'Creating account…' : !canSubmit ? 'Verifying…' : 'Create account'}
 			</button>
 		</form>
 
@@ -52,5 +84,4 @@
 			Already have an account? <a href="/auth/login" class="text-black hover:underline">Sign in</a>
 		</p>
 	</div>
-
 </div>

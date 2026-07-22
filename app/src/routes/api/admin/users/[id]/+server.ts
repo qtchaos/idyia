@@ -1,11 +1,11 @@
 import { json, error } from "@sveltejs/kit";
 import { setUserRole } from "$lib/server/queries";
-import type { Role } from "$lib/server/db/schema";
+import { validate, UserPatchSchema } from "$lib/server/validation";
 import type { RequestHandler } from "./$types";
 
 export const PATCH: RequestHandler = async ({ params, request, locals }) => {
   if (locals.role !== "admin") throw error(403, "Forbidden");
-  const { role } = (await request.json()) as { role: Role };
+  const { role } = validate(UserPatchSchema, await request.json());
   await setUserRole(params.id, role);
   return json({ ok: true });
 };

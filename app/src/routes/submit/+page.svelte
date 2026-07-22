@@ -74,7 +74,7 @@
 
 	<!-- Company name search - always visible -->
 	<div class="{fieldCls} relative mb-6">
-		<label for="nameSearch" class={labelCls}>Company name</label>
+		<label for="nameSearch" class={labelCls}>Company name <span class="text-red-400">*</span></label>
 		<input id="nameSearch" type="text" autocomplete="off" value={nameQuery} oninput={onNameInput}
 			onfocus={() => { if (searchResults.length) showDropdown = true; }}
 			onblur={() => setTimeout(() => showDropdown = false, 150)}
@@ -156,7 +156,7 @@
 			</div>
 
 			<div class={fieldCls}>
-				<label for="website" class={labelCls}>Website</label>
+				<label for="website" class={labelCls}>Website <span class="text-red-400">*</span></label>
 				<input id="website" name="website" type="url" required placeholder="https://example.com" class={inputCls} />
 			</div>
 
@@ -167,7 +167,7 @@
 
 			<div class="grid grid-cols-2 gap-3">
 				<div class={fieldCls}>
-					<label for="companyType" class={labelCls}>Type</label>
+					<label for="companyType" class={labelCls}>Type <span class="text-red-400">*</span></label>
 					<select id="companyType" name="companyType" required
 						class="h-9 px-3 text-[13px] border border-[#e1e1e1] rounded focus:outline-none focus:border-black/40 bg-white">
 						<option value="">Select…</option>
@@ -177,7 +177,7 @@
 					</select>
 				</div>
 				<div class={fieldCls}>
-					<label for="companySize" class={labelCls}>Size</label>
+					<label for="companySize" class={labelCls}>Size <span class="text-red-400">*</span></label>
 					<select id="companySize" name="companySize" required
 						class="h-9 px-3 text-[13px] border border-[#e1e1e1] rounded focus:outline-none focus:border-black/40 bg-white">
 						<option value="">Select…</option>
@@ -189,7 +189,7 @@
 			</div>
 
 			<div class={fieldCls}>
-				<label for="description" class={labelCls}>Description</label>
+				<label for="description" class={labelCls}>Description <span class="text-red-400">*</span></label>
 				<textarea id="description" name="description" required rows="3"
 					placeholder="e.g. Used AI for generating marketing posters"
 					class="px-3 py-2.5 text-[13px] border border-[#e1e1e1] rounded focus:outline-none focus:border-black/40 resize-none bg-white"></textarea>

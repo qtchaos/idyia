@@ -2,7 +2,19 @@ import { error, redirect } from "@sveltejs/kit";
 import { db } from "$lib/server/db/index";
 import { companies } from "$lib/server/db/schema";
 import { eq } from "drizzle-orm";
+import { validate, fromFormData, CompanyCreateSchema, CompanySizeSchema, CompanyTypeSchema } from "$lib/server/validation";
+import { Type } from "@sinclair/typebox";
 import type { PageServerLoad, Actions } from "./$types";
+
+// Admin edit allows all statuses plus the same fields as create
+const AdminEditSchema = Type.Object({
+  ...CompanyCreateSchema.properties,
+  status: Type.Union([Type.Literal("pending"), Type.Literal("approved"), Type.Literal("rejected")]),
+  registeredName: Type.Optional(Type.String({ maxLength: 255 })),
+  registryUrl: Type.Optional(Type.String({ maxLength: 500 })),
+  country: Type.Optional(Type.String({ maxLength: 100 })),
+  imageOrigin: Type.Optional(Type.String({ maxLength: 500 })),
+});
 
 export const load: PageServerLoad = async ({ params, locals }) => {
   if (locals.role !== "moderator" && locals.role !== "admin") throw error(403, "Forbidden");
@@ -17,24 +29,21 @@ export const actions: Actions = {
   default: async ({ params, request, locals }) => {
     if (locals.role !== "moderator" && locals.role !== "admin") throw error(403, "Forbidden");
 
-    const data = await request.formData();
+    const fields = validate(AdminEditSchema, fromFormData(await request.formData()));
 
     await db
       .update(companies)
       .set({
-        name: data.get("name")?.toString().trim() ?? "",
-        registeredName: data.get("registeredName")?.toString().trim() || null,
-        registryUrl: data.get("registryUrl")?.toString().trim() || null,
-        website: data.get("website")?.toString().trim() ?? "",
-        companyType: data.get("companyType")?.toString().trim() ?? "",
-        description: data.get("description")?.toString().trim() ?? "",
-        companySize: data.get("companySize")?.toString().trim() ?? "",
-        country: data.get("country")?.toString().trim() || null,
-        imageOrigin: data.get("imageOrigin")?.toString().trim() || null,
-        status: (data.get("status")?.toString() ?? "pending") as
-          | "pending"
-          | "approved"
-          | "rejected",
+        name: fields.name,
+        registeredName: fields.registeredName ?? null,
+        registryUrl: fields.registryUrl ?? null,
+        website: fields.website,
+        companyType: fields.companyType,
+        description: fields.description,
+        companySize: fields.companySize,
+        country: fields.country ?? null,
+        imageOrigin: fields.imageOrigin ?? null,
+        status: fields.status,
         updatedAt: new Date(),
       })
       .where(eq(companies.id, params.id));
