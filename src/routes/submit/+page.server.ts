@@ -68,7 +68,6 @@ export const actions: Actions = {
       country: fields.country ?? null,
       registeredName: fields.registeredName ?? null,
       registryUrl: fields.registryUrl ?? null,
-      urlRegex: fields.urlRegex ?? null,
       imageOrigin: fields.imageOrigin ?? null,
       imageUrl: null,
       status: isTrusted ? "approved" : "pending",

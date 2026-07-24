@@ -9,3 +9,15 @@ compatibility_flags = ["nodejs_compat"]
 DATABASE_URL="libsql://idyia-qtchaos.aws-eu-west-1.turso.io"
 PUBLIC_TURNSTILE_SITE_KEY="0x4AAAAAAD7awG0A6qQlV6uN"
 DISCORD_CLIENT_ID="1529415090485329992"
+
+# Edge-level throttling — enforced in src/hooks.server.ts. Provisions automatically
+# on deploy; no manual namespace setup needed.
+[[ratelimits]]
+name = "AUTH_RATE_LIMITER"
+namespace_id = "1001"
+simple = { limit = 10, period = 60 }
+
+[[ratelimits]]
+name = "API_RATE_LIMITER"
+namespace_id = "1002"
+simple = { limit = 120, period = 60 }

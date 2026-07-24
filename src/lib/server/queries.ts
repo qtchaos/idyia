@@ -4,6 +4,12 @@ import { eq, and, like, or, asc, desc, sql, gt, getTableColumns, ilike } from "d
 import type { SQL } from "drizzle-orm";
 import type { Role, CompanySizeCode, KarmaReason } from "./db/schema";
 
+// Escapes LIKE wildcards in user input so a literal `%` or `_` in a search
+// term doesn't act as a SQL wildcard. Paired with `ESCAPE '\'` at each call site.
+function likeTerm(raw: string): string {
+  return `%${raw.replace(/[\\%_]/g, (ch) => `\\${ch}`)}%`;
+}
+
 export const COMPANY_SIZE_LABELS: Record<CompanySizeCode, string> = {
   A: "Self-employed",
   B: "1–10",
@@ -65,11 +71,14 @@ export async function queryCompanies(opts: CompanyQuery) {
   }
 
   const searchFilter = opts.q
-    ? or(
-        like(companies.name, `%${opts.q}%`),
-        like(companies.description, `%${opts.q}%`),
-        like(companies.companyType, `%${opts.q}%`),
-      )
+    ? (() => {
+        const term = likeTerm(opts.q!);
+        return or(
+          sql`${companies.name} LIKE ${term} ESCAPE '\'`,
+          sql`${companies.description} LIKE ${term} ESCAPE '\'`,
+          sql`${companies.companyType} LIKE ${term} ESCAPE '\'`,
+        );
+      })()
     : undefined;
 
   const typeFilter = opts.type ? eq(companies.companyType, opts.type) : undefined;
@@ -179,7 +188,7 @@ export async function searchCompaniesByName(q: string) {
       imageOrigin: companies.imageOrigin,
     })
     .from(companies)
-    .where(and(eq(companies.status, "approved"), like(companies.name, `%${q}%`)))
+    .where(and(eq(companies.status, "approved"), sql`${companies.name} LIKE ${likeTerm(q)} ESCAPE '\'`))
     .limit(6)
     .all();
 }

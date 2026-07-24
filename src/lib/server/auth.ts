@@ -34,7 +34,19 @@ function getAuth() {
       plugins: env.TURNSTILE_SECRET_KEY
         ? [captcha({ provider: "cloudflare-turnstile", secretKey: env.TURNSTILE_SECRET_KEY })]
         : [],
-      trustedOrigins: ["http://localhost:5173", "https://localhost:5174"],
+      trustedOrigins: [
+        "http://localhost:5173",
+        "https://localhost:5174",
+        "https://idyia.pages.dev",
+      ],
+      advanced: {
+        // Cloudflare sets this to the real client IP on every request; it can't
+        // be spoofed by the client the way a raw X-Forwarded-For hop can, so it's
+        // what the built-in rate limiter should key on.
+        ipAddress: {
+          ipAddressHeaders: ["cf-connecting-ip", "x-forwarded-for"],
+        },
+      },
     });
   }
   return _auth;

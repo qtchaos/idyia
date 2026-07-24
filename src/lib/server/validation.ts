@@ -1,6 +1,21 @@
-import { type Static, type TSchema, Type } from "@sinclair/typebox";
+import { type Static, type TSchema, Type, FormatRegistry } from "@sinclair/typebox";
 import { Value } from "@sinclair/typebox/value";
 import { error } from "@sveltejs/kit";
+
+// ─── URL format ───────────────────────────────────────────────────────────────
+// Restricts submitted URLs to http/https so they can't carry a `javascript:`
+// (or other) payload into an <a href> / <img src> that admins/moderators click
+// while reviewing submissions.
+if (!FormatRegistry.Has("http-url")) {
+  FormatRegistry.Set("http-url", (value) => {
+    try {
+      const url = new URL(value);
+      return url.protocol === "http:" || url.protocol === "https:";
+    } catch {
+      return false;
+    }
+  });
+}
 
 // ─── Shared value schemas ─────────────────────────────────────────────────────
 
@@ -67,19 +82,21 @@ export const SearchQuerySchema = Type.Object({
 // Nullable + optional: the field may be absent (don't update) or explicitly null (clear it)
 const NullableStr = (max: number) =>
   Type.Optional(Type.Union([Type.String({ maxLength: max }), Type.Null()]));
+const NullableUrl = (max: number) =>
+  Type.Optional(Type.Union([Type.String({ maxLength: max, format: "http-url" }), Type.Null()]));
 
 export const CompanyPatchSchema = Type.Object({
   status: Type.Optional(Type.Union([Type.Literal("approved"), Type.Literal("rejected")])),
   name: NullableStr(255),
   registeredName: NullableStr(255),
-  registryUrl: NullableStr(500),
-  website: NullableStr(500),
+  registryUrl: NullableUrl(500),
+  website: NullableUrl(500),
   companyType: Type.Optional(CompanyTypeSchema),
   description: NullableStr(2000),
   companySize: Type.Optional(CompanySizeSchema),
   country: NullableStr(100),
-  imageUrl: NullableStr(500),
-  imageOrigin: NullableStr(500),
+  imageUrl: NullableUrl(500),
+  imageOrigin: NullableUrl(500),
 });
 
 export const UserPatchSchema = Type.Object({
@@ -88,24 +105,25 @@ export const UserPatchSchema = Type.Object({
 
 const Str = (max: number) => Type.String({ minLength: 1, maxLength: max });
 const OptStr = (max: number) => Type.Optional(Type.String({ maxLength: max }));
+const UrlStr = (max: number) => Type.String({ minLength: 1, maxLength: max, format: "http-url" });
+const OptUrlStr = (max: number) => Type.Optional(Type.String({ maxLength: max, format: "http-url" }));
 
 export const CompanyCreateSchema = Type.Object({
   name: Str(255),
-  website: Str(500),
+  website: UrlStr(500),
   companyType: CompanyTypeSchema,
   description: Str(2000),
   companySize: CompanySizeSchema,
   country: OptStr(100),
   registeredName: OptStr(255),
-  registryUrl: OptStr(500),
-  urlRegex: OptStr(500),
-  imageOrigin: OptStr(500),
+  registryUrl: OptUrlStr(500),
+  imageOrigin: OptUrlStr(500),
 });
 
 export const CompanyAmendSchema = Type.Object({
   companyId: Str(36),
   description: OptStr(2000),
-  imageOrigin: OptStr(500),
+  imageOrigin: OptUrlStr(500),
 });
 
 // ─── Exported static types ────────────────────────────────────────────────────

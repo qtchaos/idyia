@@ -13,10 +13,6 @@ import type { PageServerLoad, Actions } from "./$types";
 const AdminEditSchema = Type.Object({
   ...CompanyCreateSchema.properties,
   status: Type.Union([Type.Literal("pending"), Type.Literal("approved"), Type.Literal("rejected")]),
-  registeredName: Type.Optional(Type.String({ maxLength: 255 })),
-  registryUrl: Type.Optional(Type.String({ maxLength: 500 })),
-  country: Type.Optional(Type.String({ maxLength: 100 })),
-  imageOrigin: Type.Optional(Type.String({ maxLength: 500 })),
 });
 
 export const load: PageServerLoad = async ({ params, locals }) => {
