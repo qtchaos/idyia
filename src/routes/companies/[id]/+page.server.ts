@@ -19,6 +19,9 @@ function originOnly(raw: string): { ok: true; url: string } | { ok: false; error
   try { parsed = new URL(raw); } catch {
     return { ok: false, error: "Please enter a valid URL." };
   }
+  if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+    return { ok: false, error: "Only http:// and https:// URLs are allowed." };
+  }
   if (parsed.pathname !== "/" || parsed.search || parsed.hash) {
     return { ok: false, error: "Only the domain is allowed — remove any path or query parameters (e.g. https://example.com)." };
   }

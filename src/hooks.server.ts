@@ -11,6 +11,16 @@ function pickLimiter(event: Parameters<Handle>[0]["event"]) {
   if (pathname.startsWith("/api/companies") || pathname === "/sitemap.xml") {
     return event.platform?.env?.API_RATE_LIMITER;
   }
+  // Form actions (?/create, ?/addAlternative, etc.) are all POSTs and don't
+  // go through /api/, but are just as spammable — throttle them too.
+  if (
+    event.request.method === "POST" &&
+    (pathname.startsWith("/submit") ||
+      pathname.startsWith("/companies/") ||
+      pathname.startsWith("/admin/"))
+  ) {
+    return event.platform?.env?.WRITE_RATE_LIMITER;
+  }
   return undefined;
 }
 

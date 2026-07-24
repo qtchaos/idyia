@@ -12,6 +12,7 @@ declare global {
       env: {
         AUTH_RATE_LIMITER: RateLimit;
         API_RATE_LIMITER: RateLimit;
+        WRITE_RATE_LIMITER: RateLimit;
       };
     }
   }
